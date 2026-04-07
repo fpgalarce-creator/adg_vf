@@ -14,7 +14,6 @@ app.get('/api/health', (req, res) => {
   res.json({ status: 'ok', timestamp: new Date().toISOString() });
 });
 
-
 // Admin login
 app.post('/api/admin/login', (req, res) => {
   const { username, password } = req.body || {};
@@ -55,7 +54,7 @@ app.get('/api/products/featured', (req, res) => {
   try {
     const productsPath = path.join(__dirname, 'data', 'products.json');
     const products = JSON.parse(fs.readFileSync(productsPath, 'utf-8'));
-    const featured = products.filter(p => p.featured);
+    const featured = products.filter((p) => p.featured);
     res.json(featured);
   } catch (error) {
     console.error('Error reading products:', error);
@@ -63,6 +62,10 @@ app.get('/api/products/featured', (req, res) => {
   }
 });
 
-app.listen(PORT, () => {
-  console.log(`Server running on port ${PORT}`);
-});
+if (require.main === module) {
+  app.listen(PORT, () => {
+    console.log(`Server running on port ${PORT}`);
+  });
+}
+
+module.exports = app;
