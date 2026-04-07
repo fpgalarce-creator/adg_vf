@@ -1,6 +1,6 @@
 import galleryMain from "../assets/gallerymain.jpg"
 import gallery_card_1 from "../assets/gallery_card_1.jpeg"
-import gallery_card_2 from "../assets/gallery-card-2.png"
+import gallery_card_2 from "../assets/gallery-card-2.PNG"
 import ScrollAnimation from './ScrollAnimation.jsx'
 
 export default function Gallery() {
