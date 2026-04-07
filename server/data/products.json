@@ -1,0 +1,122 @@
+[
+  {
+    "id": 1,
+    "name": "Queso de Cabra Artesanal",
+    "description": "Queso de cabra madurado con hierbas finas, textura cremosa y sabor delicado.",
+    "price": 8990,
+    "weight": "250g",
+    "category": "Quesos",
+    "image": "/images/queso-cabra.jpg",
+    "featured": true
+  },
+  {
+    "id": 2,
+    "name": "Queso Mantecoso del Campo",
+    "description": "Queso mantecoso elaborado con leche fresca de vacas criadas al aire libre.",
+    "price": 6990,
+    "weight": "400g",
+    "category": "Quesos",
+    "image": "/images/queso-mantecoso.jpg",
+    "featured": true
+  },
+  {
+    "id": 3,
+    "name": "Queso Chanco Ahumado",
+    "description": "Queso chanco ahumado con madera de manzano, sabor intenso y profundo.",
+    "price": 7490,
+    "weight": "350g",
+    "category": "Quesos",
+    "image": "/images/queso-chanco.jpg",
+    "featured": false
+  },
+  {
+    "id": 4,
+    "name": "Huevos de Campo x12",
+    "description": "Huevos de gallinas criadas en libertad, alimentación 100% natural. Color y sabor inconfundibles.",
+    "price": 4500,
+    "weight": "12 unidades",
+    "category": "Huevos de campo",
+    "image": "/images/huevos-campo-12.jpg",
+    "featured": true
+  },
+  {
+    "id": 5,
+    "name": "Huevos de Campo x30",
+    "description": "Bandeja de 30 huevos de campo, perfectos para familias. Frescura garantizada.",
+    "price": 9900,
+    "weight": "30 unidades",
+    "category": "Huevos de campo",
+    "image": "/images/huevos-campo-30.jpg",
+    "featured": false
+  },
+  {
+    "id": 6,
+    "name": "Nueces Peladas Premium",
+    "description": "Nueces seleccionadas a mano, peladas y listas para disfrutar. Cosecha local.",
+    "price": 5990,
+    "weight": "500g",
+    "category": "Frutos secos",
+    "image": "/images/nueces.jpg",
+    "featured": true
+  },
+  {
+    "id": 7,
+    "name": "Almendras Tostadas",
+    "description": "Almendras crocantes, tostadas de forma artesanal sin aditivos.",
+    "price": 6490,
+    "weight": "400g",
+    "category": "Frutos secos",
+    "image": "/images/almendras.jpg",
+    "featured": false
+  },
+  {
+    "id": 8,
+    "name": "Mix Frutos Secos Premium",
+    "description": "Mezcla especial de nueces, almendras, castañas de cajú y pasas. Energía natural.",
+    "price": 7990,
+    "weight": "500g",
+    "category": "Frutos secos",
+    "image": "/images/mix-frutos.jpg",
+    "featured": false
+  },
+  {
+    "id": 9,
+    "name": "Miel Pura de Campo",
+    "description": "Miel cruda sin procesar, directa del apiario. Sabor floral intenso.",
+    "price": 6990,
+    "weight": "500g",
+    "category": "Otros",
+    "image": "/images/miel.jpg",
+    "featured": true
+  },
+  {
+    "id": 10,
+    "name": "Mermelada Casera de Frambuesa",
+    "description": "Mermelada artesanal con frambuesas de la zona. Sin conservantes artificiales.",
+    "price": 4990,
+    "weight": "350g",
+    "category": "Otros",
+    "image": "/images/mermelada.jpg",
+    "featured": false
+  },
+  {
+    "id": 11,
+    "name": "Castañas de Cajú Naturales",
+    "description": "Castañas de cajú enteras, sabor suave y textura perfecta para snack saludable.",
+    "price": 7490,
+    "weight": "350g",
+    "category": "Frutos secos",
+    "image": "/images/castanas-caju.jpg",
+    "featured": false
+  },
+  {
+    "id": 12,
+    "name": "Dulce de Membrillo Artesanal",
+    "description": "Dulce de membrillo elaborado con receta tradicional. Ideal para acompañar quesos.",
+    "price": 3990,
+    "weight": "300g",
+    "category": "Otros",
+    "image": "/images/dulce-membrillo.jpg",
+    "featured": false
+  }
+]

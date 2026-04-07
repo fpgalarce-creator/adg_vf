@@ -1,0 +1,70 @@
+@import "tailwindcss";
+
+@theme {
+  --color-olive-50: #f6f7f2;
+  --color-olive-100: #e8eadd;
+  --color-olive-200: #d3d7be;
+  --color-olive-300: #b5bb96;
+  --color-olive-400: #9ba275;
+  --color-olive-500: #7d8558;
+  --color-olive-600: #5c6b3c;
+  --color-olive-700: #4a5532;
+  --color-olive-800: #3d452b;
+  --color-olive-900: #353b27;
+
+  --color-cream-50: #fefdfb;
+  --color-cream-100: #faf8f3;
+  --color-cream-200: #f5f0e8;
+  --color-cream-300: #ede5d8;
+  --color-cream-400: #e0d4c0;
+  --color-cream-500: #d1c2a8;
+
+  --color-gold-400: #d4b06a;
+  --color-gold-500: #c4a35a;
+  --color-gold-600: #b08d3e;
+
+  --color-dark: #2d2d2d;
+  --color-dark-light: #4a4a4a;
+
+  --font-heading: 'Outfit', sans-serif;
+  --font-body: 'Inter', sans-serif;
+}
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+  }
+
+  body {
+    font-family: var(--font-body);
+    color: var(--color-dark);
+    background-color: var(--color-cream-50);
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  h1, h2, h3, h4, h5, h6 {
+    font-family: var(--font-heading);
+  }
+
+  /* Custom scrollbar */
+  ::-webkit-scrollbar {
+    width: 6px;
+  }
+  ::-webkit-scrollbar-track {
+    background: var(--color-cream-100);
+  }
+  ::-webkit-scrollbar-thumb {
+    background: var(--color-olive-400);
+    border-radius: 3px;
+  }
+  ::-webkit-scrollbar-thumb:hover {
+    background: var(--color-olive-500);
+  }
+}
+
+@layer utilities {
+  .text-balance {
+    text-wrap: balance;
+  }
+}
