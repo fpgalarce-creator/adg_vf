@@ -1,6 +1,5 @@
 import { useCart } from '../context/CartContext.jsx'
 import { ShoppingCart, Star, Plus, Minus } from 'lucide-react'
-import ScrollAnimation from './ScrollAnimation.jsx'
 
 function formatPrice(price) {
   return new Intl.NumberFormat('es-CL', { style: 'currency', currency: 'CLP', minimumFractionDigits: 0 }).format(price)
@@ -18,7 +17,7 @@ function ProductCard({ product, featured = false }) {
       <div className="relative aspect-square overflow-hidden bg-cream-100">
         <img
           src={product.image}
-          alt={product.name}
+          alt={product.title || product.name}
           loading="lazy"
           className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
         />
@@ -35,11 +34,11 @@ function ProductCard({ product, featured = false }) {
       <div className="p-5">
         <div className="flex items-start justify-between gap-2 mb-2">
           <h3 className="font-heading font-semibold text-lg text-dark leading-tight">
-            {product.name}
+            {product.title || product.name}
           </h3>
         </div>
         <p className="text-dark-light/50 text-xs uppercase tracking-wider mb-2">
-          {product.weight}
+          {product.weight || product.peso}
         </p>
         <p className="text-dark-light/60 text-sm leading-relaxed mb-4 line-clamp-2">
           {product.description}
