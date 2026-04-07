@@ -1,50 +1,49 @@
 import { useState, useMemo } from 'react'
 import { SlidersHorizontal, ArrowUpDown } from 'lucide-react'
-import productsData from '../data/products.js'
 import { ProductCard } from './ProductCard.jsx'
 import ScrollAnimation from './ScrollAnimation.jsx'
-
-const categories = ['Todo', 'Quesos', 'Huevos de campo', 'Frutos secos', 'Otros']
+import { useProducts } from '../hooks/useProducts.js'
 
 export default function Products() {
+  const { products } = useProducts()
   const [activeCategory, setActiveCategory] = useState('Todo')
   const [sortOrder, setSortOrder] = useState('none')
 
+  const categories = useMemo(() => {
+    const uniqueCategories = [...new Set(products.filter((p) => p.active).map((p) => p.category))]
+    return ['Todo', ...uniqueCategories]
+  }, [products])
+
   const filteredProducts = useMemo(() => {
-    let products = activeCategory === 'Todo'
-      ? [...productsData]
-      : productsData.filter(p => p.category === activeCategory)
+    let list = products.filter((p) => p.active)
 
-    if (sortOrder === 'asc') products.sort((a, b) => a.price - b.price)
-    if (sortOrder === 'desc') products.sort((a, b) => b.price - a.price)
+    if (activeCategory !== 'Todo') {
+      list = list.filter((p) => p.category === activeCategory)
+    }
 
-    return products
-  }, [activeCategory, sortOrder])
+    const sorted = [...list]
+    if (sortOrder === 'asc') sorted.sort((a, b) => a.price - b.price)
+    if (sortOrder === 'desc') sorted.sort((a, b) => b.price - a.price)
+
+    return sorted
+  }, [products, activeCategory, sortOrder])
 
   return (
     <section id="productos" className="py-24 sm:py-32 bg-cream-50">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <ScrollAnimation>
           <div className="text-center mb-12">
-            <span className="inline-block text-olive-600 text-sm font-semibold uppercase tracking-[0.15em] mb-3">
-              Catálogo completo
-            </span>
-            <h2 className="font-heading font-bold text-3xl sm:text-4xl lg:text-5xl text-dark mb-4">
-              Nuestros productos
-            </h2>
-            <p className="text-dark-light/70 text-lg max-w-2xl mx-auto">
-              Explora todo nuestro catálogo de productos del campo. Frescos, naturales y seleccionados con dedicación.
-            </p>
+            <span className="inline-block text-olive-600 text-sm font-semibold uppercase tracking-[0.15em] mb-3">Catálogo completo</span>
+            <h2 className="font-heading font-bold text-3xl sm:text-4xl lg:text-5xl text-dark mb-4">Nuestros productos</h2>
+            <p className="text-dark-light/70 text-lg max-w-2xl mx-auto">Explora todo nuestro catálogo de productos del campo. Frescos, naturales y seleccionados con dedicación.</p>
           </div>
         </ScrollAnimation>
 
-        {/* Filters */}
         <ScrollAnimation>
           <div className="flex flex-col sm:flex-row items-center justify-between gap-4 mb-10">
-            {/* Category Filters */}
             <div className="flex items-center gap-2 flex-wrap justify-center">
               <SlidersHorizontal size={16} className="text-olive-500 hidden sm:block" />
-              {categories.map(cat => (
+              {categories.map((cat) => (
                 <button
                   key={cat}
                   onClick={() => setActiveCategory(cat)}
@@ -59,7 +58,6 @@ export default function Products() {
               ))}
             </div>
 
-            {/* Sort */}
             <div className="flex items-center gap-2">
               <ArrowUpDown size={16} className="text-olive-500" />
               <select
@@ -75,7 +73,6 @@ export default function Products() {
           </div>
         </ScrollAnimation>
 
-        {/* Products Grid */}
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 lg:gap-8">
           {filteredProducts.map((product, index) => (
             <ScrollAnimation key={product.id} delay={index * 50}>

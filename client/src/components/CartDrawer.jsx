@@ -27,7 +27,7 @@ export default function CartDrawer() {
     if (!validateForm()) return
 
     const productLines = items.map(item =>
-      `▸ ${item.name} (${item.weight}) x${item.quantity} — ${formatPrice(item.price * item.quantity)}`
+      `▸ ${item.title || item.name} (${item.weight || item.peso || ""}) x${item.quantity} — ${formatPrice(item.price * item.quantity)}`
     ).join('\n')
 
     const message = `¡Hola Alma de Granja! 🌿\n\nMe gustaría hacer el siguiente pedido:\n\n${productLines}\n\n💰 *Total estimado: ${formatPrice(totalPrice)}*\n\n📋 *Datos de envío:*\nNombre: ${form.nombre}\nLocalidad: ${form.localidad}\nDirección: ${form.direccion}${form.comentario ? `\nComentario: ${form.comentario}` : ''}\n\n¡Quedo atento/a a la confirmación! 🙌`
@@ -97,12 +97,12 @@ export default function CartDrawer() {
                   <div key={item.id} className="flex gap-3 bg-white rounded-2xl p-3 border border-olive-100">
                     <img
                       src={item.image}
-                      alt={item.name}
+                      alt={item.title || item.name}
                       className="w-20 h-20 rounded-xl object-cover shrink-0"
                     />
                     <div className="flex-1 min-w-0">
-                      <h4 className="font-heading font-semibold text-sm text-dark truncate">{item.name}</h4>
-                      <p className="text-dark-light/50 text-xs mb-2">{item.weight}</p>
+                      <h4 className="font-heading font-semibold text-sm text-dark truncate">{item.title || item.name}</h4>
+                      <p className="text-dark-light/50 text-xs mb-2">{item.weight || item.peso}</p>
                       <div className="flex items-center justify-between">
                         <div className="flex items-center gap-1.5">
                           <button
