@@ -49,7 +49,7 @@ export default function Hero() {
         </ScrollAnimation>
 
         <ScrollAnimation delay={250}>
-          <div className="flex flex-col sm:flex-row items-center justify-center gap-3 text-base sm:text-lg text-cream-200/90 mb-6">
+          <div className="flex flex-col sm:flex-row items-center justify-center gap-3 text-lg sm:text-xl md:text-2xl text-cream-100 mb-6 font-medium">
             <span className="flex items-center gap-2">
               <span className="w-2 h-2 bg-gold-400 rounded-full" />
               Rancagua
@@ -73,8 +73,8 @@ export default function Hero() {
         </ScrollAnimation>
 
         <ScrollAnimation delay={300}>
-          <div className="inline-block bg-gold-500/25 border-2 border-gold-400/40 rounded-full px-8 py-3 mb-10 shadow-lg shadow-gold-500/10">
-            <p className="text-gold-300 font-bold text-base sm:text-lg tracking-wide">
+          <div className="inline-block bg-gold-500/35 border-2 border-gold-300/70 rounded-full px-8 sm:px-10 py-3.5 sm:py-4 mb-10 shadow-xl shadow-gold-500/25">
+            <p className="text-gold-100 font-extrabold text-lg sm:text-2xl tracking-wide">
               🚚 Despacho GRATIS en compras sobre $20.000
             </p>
           </div>
