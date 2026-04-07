@@ -1,23 +1,48 @@
-import huevosCampo from '../assets/products/huevos-de-campo.jpeg'
-import almendras from '../assets/products/Almendras.jpeg'
-import mani from '../assets/products/Mani.jpeg'
-import nueces500 from '../assets/products/Nueces-500grs.jpeg'
-import pistachos from '../assets/products/Pistachos.jpeg'
-import pistachos500 from '../assets/products/Pistachos-500grs.jpeg'
-import pasas500 from '../assets/products/Pasas-500grs.jpeg'
+const imageModules = import.meta.glob('../assets/products/*.{png,jpg,jpeg,webp,avif,svg}', {
+  eager: true,
+  import: 'default',
+})
 
-export const productImageOptions = [
-  { key: 'huevos-campo', label: 'Huevos de campo', src: huevosCampo },
-  { key: 'almendras', label: 'Almendras', src: almendras },
-  { key: 'mani', label: 'Maní', src: mani },
-  { key: 'nueces-500', label: 'Nueces 500gr', src: nueces500 },
-  { key: 'pistachos', label: 'Pistachos', src: pistachos },
-  { key: 'pistachos-500', label: 'Pistachos 500gr', src: pistachos500 },
-  { key: 'pasas-500', label: 'Pasas 500gr', src: pasas500 },
-]
+const FILE_OVERRIDES = {
+  'huevos-de-campo': { key: 'huevos-campo', label: 'Huevos de campo' },
+  Almendras: { key: 'almendras', label: 'Almendras' },
+  Mani: { key: 'mani', label: 'Maní' },
+  'Nueces-500grs': { key: 'nueces-500', label: 'Nueces 500gr' },
+  Pistachos: { key: 'pistachos', label: 'Pistachos' },
+  'Pistachos-500grs': { key: 'pistachos-500', label: 'Pistachos 500gr' },
+  'Pasas-500grs': { key: 'pasas-500', label: 'Pasas 500gr' },
+}
 
-export const productImageMap = Object.fromEntries(
-  productImageOptions.map((image) => [image.key, image.src]),
-)
+const toTitle = (value) => value
+  .replace(/[-_]+/g, ' ')
+  .replace(/\s+/g, ' ')
+  .trim()
+  .replace(/\b\w/g, (char) => char.toUpperCase())
 
-export const defaultProductImageKey = productImageOptions[0].key
+const slugify = (value) => value
+  .normalize('NFD')
+  .replace(/[\u0300-\u036f]/g, '')
+  .replace(/[^a-zA-Z0-9]+/g, '-')
+  .replace(/^-+|-+$/g, '')
+  .toLowerCase()
+
+export const productImageOptions = Object.entries(imageModules)
+  .map(([filePath, src]) => {
+    const filename = filePath.split('/').pop() ?? ''
+    const baseName = filename.replace(/\.[^.]+$/, '')
+    const override = FILE_OVERRIDES[baseName]
+
+    return {
+      key: override?.key ?? slugify(baseName),
+      label: override?.label ?? toTitle(baseName),
+      src,
+      filePath,
+    }
+  })
+  .sort((a, b) => a.label.localeCompare(b.label, 'es'))
+
+export const productImageMap = Object.fromEntries(productImageOptions.map((image) => [image.key, image.src]))
+
+export const defaultProductImageKey = productImageMap['huevos-campo']
+  ? 'huevos-campo'
+  : productImageOptions[0]?.key
