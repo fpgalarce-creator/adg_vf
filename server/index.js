@@ -14,6 +14,30 @@ app.get('/api/health', (req, res) => {
   res.json({ status: 'ok', timestamp: new Date().toISOString() });
 });
 
+
+// Admin login
+app.post('/api/admin/login', (req, res) => {
+  const { username, password } = req.body || {};
+
+  const expectedUsername = process.env.ADMIN_USERNAME;
+  const expectedPassword = process.env.ADMIN_PASSWORD;
+
+  if (!expectedUsername || !expectedPassword) {
+    return res.status(500).json({
+      success: false,
+      message: 'Admin credentials are not configured on server',
+    });
+  }
+
+  const success = username === expectedUsername && password === expectedPassword;
+
+  if (!success) {
+    return res.status(401).json({ success: false, message: 'Credenciales inválidas' });
+  }
+
+  return res.json({ success: true });
+});
+
 // Get all products
 app.get('/api/products', (req, res) => {
   try {

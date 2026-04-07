@@ -1,8 +1,10 @@
 import { useMemo, useState } from 'react'
-import { Plus, Pencil, Save, X, Package, LogOut, Eye, EyeOff, Star } from 'lucide-react'
+import { Plus, Pencil, Save, X, Package, LogOut, Eye, EyeOff, Star, ShieldCheck, Lock } from 'lucide-react'
 import { useProducts } from '../hooks/useProducts.js'
 import { CATEGORY_OPTIONS, normalizeProduct } from '../utils/productStore.js'
 import { productImageOptions, productImageMap, defaultProductImageKey } from '../data/productImages.js'
+
+const ADMIN_SESSION_KEY = 'adg_admin_auth_v1'
 
 const emptyProduct = {
   title: '',
@@ -17,14 +19,59 @@ const emptyProduct = {
   imageKey: defaultProductImageKey,
 }
 
+const getInitialSession = () => {
+  if (typeof window === 'undefined') return false
+  return sessionStorage.getItem(ADMIN_SESSION_KEY) === 'true'
+}
+
 export default function AdminPage() {
   const { products, setProducts } = useProducts()
+  const [isAuthenticated, setIsAuthenticated] = useState(getInitialSession)
+  const [loginForm, setLoginForm] = useState({ username: '', password: '' })
+  const [loginError, setLoginError] = useState('')
+  const [isLoggingIn, setIsLoggingIn] = useState(false)
+
   const [editingId, setEditingId] = useState(null)
   const [isCreating, setIsCreating] = useState(false)
   const [form, setForm] = useState(emptyProduct)
 
   const visibleCount = useMemo(() => products.filter((p) => p.active).length, [products])
   const featuredCount = useMemo(() => products.filter((p) => p.active && p.featured).length, [products])
+
+  const handleLogin = async (event) => {
+    event.preventDefault()
+    setLoginError('')
+    setIsLoggingIn(true)
+
+    try {
+      const response = await fetch('/api/admin/login', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(loginForm),
+      })
+      const data = await response.json()
+
+      if (!response.ok || !data.success) {
+        setLoginError(data.message || 'No se pudo iniciar sesión')
+        return
+      }
+
+      sessionStorage.setItem(ADMIN_SESSION_KEY, 'true')
+      setIsAuthenticated(true)
+      setLoginForm({ username: '', password: '' })
+    } catch {
+      setLoginError('Error de conexión con el servidor')
+    } finally {
+      setIsLoggingIn(false)
+    }
+  }
+
+  const handleLogout = () => {
+    sessionStorage.removeItem(ADMIN_SESSION_KEY)
+    setIsAuthenticated(false)
+    setLoginError('')
+    setLoginForm({ username: '', password: '' })
+  }
 
   const resetForm = () => {
     setForm(emptyProduct)
@@ -105,6 +152,51 @@ export default function AdminPage() {
 
   const showForm = isCreating || Boolean(editingId)
 
+  if (!isAuthenticated) {
+    return (
+      <div className="min-h-screen bg-gray-50 flex items-center justify-center px-4 py-10">
+        <div className="w-full max-w-md bg-white border border-gray-200 rounded-2xl shadow-sm p-8">
+          <div className="text-center mb-6">
+            <div className="w-14 h-14 rounded-2xl bg-olive-600 mx-auto flex items-center justify-center mb-4">
+              <ShieldCheck className="text-white" size={24} />
+            </div>
+            <h1 className="font-heading text-2xl font-bold text-gray-900">Acceso administrador</h1>
+            <p className="text-sm text-gray-500 mt-2">Ingresa tus credenciales para continuar a /admin.</p>
+          </div>
+
+          <form className="space-y-4" onSubmit={handleLogin}>
+            <Input
+              label="Usuario"
+              value={loginForm.username}
+              onChange={(value) => setLoginForm((prev) => ({ ...prev, username: value }))}
+            />
+            <Input
+              label="Contraseña"
+              type="password"
+              value={loginForm.password}
+              onChange={(value) => setLoginForm((prev) => ({ ...prev, password: value }))}
+            />
+
+            {loginError && (
+              <div className="text-sm text-red-600 bg-red-50 border border-red-200 rounded-xl px-3 py-2">{loginError}</div>
+            )}
+
+            <button
+              type="submit"
+              disabled={isLoggingIn}
+              className="w-full flex items-center justify-center gap-2 bg-olive-600 hover:bg-olive-700 disabled:opacity-60 text-white px-6 py-3 rounded-xl text-sm font-semibold transition-colors"
+            >
+              <Lock size={16} />
+              {isLoggingIn ? 'Validando...' : 'Ingresar'}
+            </button>
+          </form>
+
+          <a href="/" className="block mt-5 text-center text-sm text-gray-500 hover:text-gray-700">Volver al sitio</a>
+        </div>
+      </div>
+    )
+  }
+
   return (
     <div className="min-h-screen bg-gray-50">
       <header className="bg-white border-b border-gray-200 sticky top-0 z-10">
@@ -116,9 +208,12 @@ export default function AdminPage() {
               <p className="text-gray-500 text-xs">Alma de Granja</p>
             </div>
           </div>
-          <a href="/" className="flex items-center gap-2 text-gray-500 hover:text-gray-700 text-sm transition-colors">
-            <LogOut size={16} /> Volver al sitio
-          </a>
+          <div className="flex items-center gap-4">
+            <button onClick={handleLogout} className="flex items-center gap-2 text-gray-500 hover:text-gray-700 text-sm transition-colors">
+              <LogOut size={16} /> Cerrar sesión
+            </button>
+            <a href="/" className="text-sm text-gray-500 hover:text-gray-700">Volver al sitio</a>
+          </div>
         </div>
       </header>
 
