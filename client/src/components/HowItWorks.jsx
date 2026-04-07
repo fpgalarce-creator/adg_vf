@@ -1,5 +1,5 @@
 import { ShoppingBag, ClipboardList, Send, CheckCircle2 } from 'lucide-react'
-import howItWorksBg from '../assets/herovf.jpeg'
+import stepBg from '../assets/herovf.jpeg'
 import ScrollAnimation from './ScrollAnimation.jsx'
 
 const steps = [
@@ -31,12 +31,13 @@ const steps = [
 
 export default function HowItWorks() {
   return (
-    <section className="relative py-24 sm:py-32 overflow-hidden">
-      <img src={howItWorksBg} alt="Fondo rural Alma de Granja" className="absolute inset-0 w-full h-full object-cover" />
-      <div className="absolute inset-0 bg-cream-50/80" />
-      <div className="absolute inset-0 bg-gradient-to-b from-white/70 via-cream-50/85 to-white/80" />
+    <section
+      className="relative bg-cover bg-center py-24 sm:py-32 overflow-hidden"
+      style={{ backgroundImage: `url(${stepBg})` }}
+    >
+      <div className="absolute inset-0 bg-black/40"></div>
 
-      <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <ScrollAnimation>
           <div className="text-center mb-16 bg-white/75 backdrop-blur-sm rounded-3xl border border-white/70 p-8 shadow-lg shadow-olive-900/5">
             <span className="inline-block text-olive-600 text-sm font-semibold uppercase tracking-[0.15em] mb-3">Proceso simple</span>
