@@ -9,6 +9,22 @@ const values = [
   { icon: Award, title: 'Calidad real', desc: 'Estándar premium del campo chileno.' },
 ]
 
+function NaturalProductsCard({ className = '' }) {
+  return (
+    <div className={`bg-white rounded-2xl p-6 shadow-2xl shadow-olive-900/10 border border-olive-100 max-w-[240px] ${className}`}>
+      <div className="flex items-center gap-3 mb-2">
+        <div className="w-10 h-10 bg-olive-100 rounded-full flex items-center justify-center">
+          <Leaf className="text-olive-600" size={20} />
+        </div>
+        <span className="font-heading font-bold text-2xl text-olive-700">100%</span>
+      </div>
+      <p className="text-dark-light/60 text-sm">
+        Productos naturales del campo chileno
+      </p>
+    </div>
+  )
+}
+
 export default function AboutUs() {
   return (
     <section id="nosotros" className="py-24 sm:py-32 bg-white overflow-hidden">
@@ -24,18 +40,8 @@ export default function AboutUs() {
                   className="w-full h-full object-cover"
                 />
               </div>
-              {/* Floating card */}
-              <div className="absolute -bottom-6 -right-4 sm:right-8 bg-white rounded-2xl p-6 shadow-2xl shadow-olive-900/10 border border-olive-100 max-w-[240px]">
-                <div className="flex items-center gap-3 mb-2">
-                  <div className="w-10 h-10 bg-olive-100 rounded-full flex items-center justify-center">
-                    <Leaf className="text-olive-600" size={20} />
-                  </div>
-                  <span className="font-heading font-bold text-2xl text-olive-700">100%</span>
-                </div>
-                <p className="text-dark-light/60 text-sm">
-                  Productos naturales del campo chileno
-                </p>
-              </div>
+              {/* Floating card (desktop only) */}
+              <NaturalProductsCard className="hidden lg:block absolute -bottom-6 -right-4 sm:right-8" />
             </div>
           </ScrollAnimation>
 
@@ -57,6 +63,8 @@ export default function AboutUs() {
                 para nuestra propia familia. Trabajamos con productores locales de la zona
                 de O'Higgins, garantizando frescura, trazabilidad y un trato humano en cada paso.
               </p>
+
+              <NaturalProductsCard className="lg:hidden mt-2 mb-8 max-w-full sm:max-w-[320px]" />
             </ScrollAnimation>
 
             {/* Values Grid */}
