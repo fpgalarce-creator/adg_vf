@@ -1,4 +1,4 @@
-import aboutImg from "../assets/sobre-nosotros.jpeg"
+import aboutImg from "../assets/herovf.jpeg"
 import { Heart, Leaf, Users, Award } from 'lucide-react'
 import ScrollAnimation from './ScrollAnimation.jsx'
 
