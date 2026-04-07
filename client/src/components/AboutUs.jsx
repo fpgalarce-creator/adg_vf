@@ -64,7 +64,7 @@ export default function AboutUs() {
                 de O'Higgins, garantizando frescura, trazabilidad y un trato humano en cada paso.
               </p>
 
-              <NaturalProductsCard className="lg:hidden mt-2 mb-8 max-w-full sm:max-w-[320px]" />
+              <NaturalProductsCard className="static lg:hidden mt-6 mb-8 max-w-full sm:max-w-[320px]" />
             </ScrollAnimation>
 
             {/* Values Grid */}
