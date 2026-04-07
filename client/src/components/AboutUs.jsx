@@ -9,49 +9,29 @@ const values = [
   { icon: Award, title: 'Calidad real', desc: 'Estándar premium del campo chileno.' },
 ]
 
-function NaturalProductsCard({ className = '' }) {
-  return (
-    <div className={`bg-white rounded-2xl p-6 shadow-2xl shadow-olive-900/10 border border-olive-100 max-w-[240px] ${className}`}>
-      <div className="flex items-center gap-3 mb-2">
-        <div className="w-10 h-10 bg-olive-100 rounded-full flex items-center justify-center">
-          <Leaf className="text-olive-600" size={20} />
-        </div>
-        <span className="font-heading font-bold text-2xl text-olive-700">100%</span>
-      </div>
-      <p className="text-dark-light/60 text-sm">
-        Productos naturales del campo chileno
-      </p>
-    </div>
-  )
-}
-
 export default function AboutUs() {
   return (
     <section id="nosotros" className="py-24 sm:py-32 bg-white overflow-hidden">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 lg:gap-14 items-center">
           {/* Image Side */}
           <ScrollAnimation>
-            <div className="relative">
-              <div className="aspect-[4/5] rounded-3xl overflow-hidden">
-                <img
-                  src={aboutImg}
-                  alt="Productos frescos del campo"
-                  className="w-full h-full object-cover"
-                />
-              </div>
-              {/* Floating card (desktop only) */}
-              <NaturalProductsCard className="hidden lg:block absolute -bottom-6 -right-4 sm:right-8" />
+            <div className="aspect-[4/5] rounded-3xl overflow-hidden">
+              <img
+                src={aboutImg}
+                alt="Productos frescos del campo"
+                className="w-full h-full object-cover"
+              />
             </div>
           </ScrollAnimation>
 
           {/* Text Side */}
-          <div>
+          <div className="lg:py-2">
             <ScrollAnimation>
-              <span className="inline-block text-olive-600 text-sm font-semibold uppercase tracking-[0.15em] mb-3">
+              <span className="block text-olive-600 text-sm font-semibold uppercase tracking-[0.15em] mb-2">
                 Nuestra historia
               </span>
-              <h2 className="font-heading font-bold text-3xl sm:text-4xl lg:text-5xl text-dark mb-6 leading-tight">
+              <h2 className="font-heading font-bold text-3xl sm:text-4xl lg:text-5xl text-dark mb-5 leading-tight">
                 Somos <span className="text-olive-600">Alma de Granja</span>
               </h2>
               <p className="text-dark-light/70 text-lg leading-relaxed mb-4">
@@ -63,8 +43,6 @@ export default function AboutUs() {
                 para nuestra propia familia. Trabajamos con productores locales de la zona
                 de O'Higgins, garantizando frescura, trazabilidad y un trato humano en cada paso.
               </p>
-
-              <NaturalProductsCard className="static lg:hidden mt-6 mb-8 max-w-full sm:max-w-[320px]" />
             </ScrollAnimation>
 
             {/* Values Grid */}
