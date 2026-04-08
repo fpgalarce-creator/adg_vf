@@ -60,8 +60,8 @@ export default function Hero() {
         </ScrollAnimation>
 
         <ScrollAnimation delay={300}>
-          <div className="inline-block bg-gold-500/35 border-2 border-gold-300/70 rounded-full px-8 sm:px-10 py-3.5 sm:py-4 mb-10 shadow-xl shadow-gold-500/25">
-            <p className="text-gold-100 font-extrabold text-lg sm:text-2xl tracking-wide">🚚 Despacho GRATIS en compras sobre $25.000</p>
+          <div className="inline-block rounded-full px-8 sm:px-10 py-3.5 sm:py-4 mb-10 bg-cream-100/22 border border-cream-100/45 backdrop-blur-sm shadow-lg shadow-black/20 animate-[heroBadgeFloat_4.5s_ease-in-out_infinite] transition-all duration-300 hover:bg-cream-100/30 hover:border-cream-100/60">
+            <p className="text-cream-50 font-extrabold text-lg sm:text-2xl tracking-wide [text-shadow:0_1px_8px_rgba(0,0,0,0.28)]">🚚 Despacho GRATIS en compras sobre $25.000</p>
           </div>
         </ScrollAnimation>
 
