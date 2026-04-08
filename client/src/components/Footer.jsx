@@ -61,13 +61,13 @@ export default function Footer() {
             </h4>
             <div className="space-y-3">
               <a
-                href="https://wa.me/56958086762"
+                href="https://wa.me/56990861197"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="flex items-center gap-2 text-cream-500/50 hover:text-green-400 text-sm transition-colors duration-300"
               >
                 <MessageCircle size={16} />
-                +56 9 5808 6762
+                +56 9 9086 1197
               </a>
               <p className="text-cream-500/50 text-sm">
                 Rancagua · Machalí · Graneros · San Fco. de Mostazal
