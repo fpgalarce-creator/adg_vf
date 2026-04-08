@@ -9,6 +9,7 @@ import Gallery from './components/Gallery.jsx'
 import Contact from './components/Contact.jsx'
 import Footer from './components/Footer.jsx'
 import CartDrawer from './components/CartDrawer.jsx'
+import FloatingSocialButtons from './components/FloatingSocialButtons.jsx'
 import AdminPage from './pages/AdminPage.jsx'
 
 function LandingPage() {
@@ -26,6 +27,7 @@ function LandingPage() {
       </main>
       <Footer />
       <CartDrawer />
+      <FloatingSocialButtons />
     </>
   )
 }
