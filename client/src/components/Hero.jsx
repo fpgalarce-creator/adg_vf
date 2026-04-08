@@ -33,13 +33,15 @@ export default function Hero() {
         </ScrollAnimation>
 
         <ScrollAnimation delay={100}>
-          <h1 className="font-heading font-bold text-4xl sm:text-5xl md:text-6xl lg:text-7xl text-white leading-tight mb-6 text-balance">
+          <h1 className="font-bold text-4xl sm:text-5xl md:text-6xl lg:text-7xl text-white leading-tight mb-6 text-balance"
+            style={{ fontFamily: "'Playfair Display', serif" }}>
             Lo mejor del campo, <span className="text-gold-400">directo a tu mesa</span>
           </h1>
         </ScrollAnimation>
 
         <ScrollAnimation delay={200}>
-          <p className="text-cream-200 text-lg sm:text-xl max-w-2xl mx-auto mb-4 leading-relaxed">
+          <p className="text-cream-200 text-lg sm:text-xl max-w-2xl mx-auto mb-4 leading-relaxed"
+            style={{ fontFamily: "'Playfair Display', serif" }}>
             Seleccionamos con cariño los productos más frescos y auténticos del campo para ti.
             Quesos artesanales, huevos de campo, frutos secos y mucho más.
           </p>
@@ -59,7 +61,7 @@ export default function Hero() {
 
         <ScrollAnimation delay={300}>
           <div className="inline-block bg-gold-500/35 border-2 border-gold-300/70 rounded-full px-8 sm:px-10 py-3.5 sm:py-4 mb-10 shadow-xl shadow-gold-500/25">
-            <p className="text-gold-100 font-extrabold text-lg sm:text-2xl tracking-wide">🚚 Despacho GRATIS en compras sobre $20.000</p>
+            <p className="text-gold-100 font-extrabold text-lg sm:text-2xl tracking-wide">🚚 Despacho GRATIS en compras sobre $25.000</p>
           </div>
         </ScrollAnimation>
 
