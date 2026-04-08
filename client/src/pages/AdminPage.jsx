@@ -1,5 +1,5 @@
 import { useMemo, useState } from 'react'
-import { Plus, Pencil, Save, X, Package, LogOut, Eye, EyeOff, Star, ShieldCheck, Lock } from 'lucide-react'
+import { Plus, Pencil, Save, X, Package, LogOut, Eye, EyeOff, Star, ShieldCheck, Lock, Trash2 } from 'lucide-react'
 import { useProducts } from '../hooks/useProducts.js'
 import { CATEGORY_OPTIONS, normalizeProduct } from '../utils/productStore.js'
 import { productImageOptions, productImageMap, defaultProductImageKey } from '../data/productImages.js'
@@ -148,6 +148,17 @@ export default function AdminPage() {
         return next
       }),
     )
+  }
+
+  const removeProduct = (product) => {
+    const confirmed = window.confirm(`¿Eliminar "${product.title}"? Esta acción no se puede deshacer.`)
+    if (!confirmed) return
+
+    setProducts(products.filter((item) => item.id !== product.id))
+
+    if (editingId === product.id) {
+      resetForm()
+    }
   }
 
   const showForm = isCreating || Boolean(editingId)
@@ -346,6 +357,9 @@ export default function AdminPage() {
                           <Star size={16} fill={product.featured ? 'currentColor' : 'none'} />
                         </button>
                         <button onClick={() => startEdit(product)} className="p-2 text-gray-400 hover:text-blue-600 hover:bg-blue-50 rounded-lg"><Pencil size={16} /></button>
+                        <button onClick={() => removeProduct(product)} className="p-2 text-gray-400 hover:text-red-600 hover:bg-red-50 rounded-lg" title="Eliminar producto">
+                          <Trash2 size={16} />
+                        </button>
                       </div>
                     </td>
                   </tr>
