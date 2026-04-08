@@ -62,11 +62,21 @@ export const loadProducts = () => {
 
   try {
     const parsed = JSON.parse(stored)
-    return parsed.map(normalizeProduct)
+    if (Array.isArray(parsed)) {
+      const normalized = parsed.map(normalizeProduct)
+      localStorage.setItem(PRODUCTS_STORAGE_KEY, JSON.stringify(normalized))
+      return normalized
+    }
+
+    if (parsed && Array.isArray(parsed.products)) {
+      const normalized = parsed.products.map(normalizeProduct)
+      localStorage.setItem(PRODUCTS_STORAGE_KEY, JSON.stringify(normalized))
+      return normalized
+    }
+
+    return []
   } catch {
-    const initial = defaultProducts.map(normalizeProduct)
-    localStorage.setItem(PRODUCTS_STORAGE_KEY, JSON.stringify(initial))
-    return initial
+    return []
   }
 }
 
