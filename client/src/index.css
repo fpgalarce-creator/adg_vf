@@ -105,7 +105,7 @@
 
   .hero-marquee-wrapper {
     overflow: hidden;
-    mask-image: linear-gradient(to right, transparent, black 9%, black 91%, transparent);
+    mask-image: linear-gradient(to right, transparent, black 12%, black 88%, transparent);
   }
 
   .hero-marquee-track {
@@ -115,9 +115,43 @@
     will-change: transform;
   }
 
+  .hero-marquee-item {
+    position: relative;
+    transform: scale(
+        calc(
+          1 - ((var(--depth) / var(--max-depth)) * 0.1)
+        )
+      );
+    opacity: calc(1 - ((var(--depth) / var(--max-depth)) * 0.28));
+    transition: transform 320ms ease, opacity 320ms ease;
+  }
+
+  .hero-marquee-circle {
+    box-shadow:
+      0 12px 24px rgba(0, 0, 0, 0.2),
+      inset 0 0 0 1px rgba(255, 255, 255, 0.12);
+  }
+
+  @media (hover: hover) and (pointer: fine) {
+    .hero-marquee-track:hover .hero-marquee-item {
+      opacity: 0.82;
+    }
+
+    .hero-marquee-track:hover .hero-marquee-item:hover {
+      transform: scale(1.06) translateY(-1px);
+      opacity: 1;
+      z-index: 2;
+    }
+  }
+
   @media (prefers-reduced-motion: reduce) {
     .hero-marquee-track {
       animation-play-state: paused;
+    }
+
+    .hero-marquee-item {
+      transform: scale(1);
+      opacity: 1;
     }
   }
 }

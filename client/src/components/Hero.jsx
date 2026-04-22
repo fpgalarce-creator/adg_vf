@@ -24,6 +24,9 @@ const steps = [
 ]
 
 const STEP_INTERVAL_MS = 4200
+const MARQUEE_MIN_PRODUCTS = 6
+const MARQUEE_MAX_PRODUCTS = 10
+const MARQUEE_TARGET_PRODUCTS = 8
 
 export default function Hero() {
   const [activeStep, setActiveStep] = useState(0)
@@ -42,10 +45,22 @@ export default function Hero() {
     return () => clearInterval(interval)
   }, [])
 
-  const marqueeItems = useMemo(() => {
+  const marqueeProducts = useMemo(() => {
     if (!activeProducts.length) return []
-    return [...activeProducts, ...activeProducts]
+
+    const totalProducts = activeProducts.length
+    const targetCount =
+      totalProducts >= MARQUEE_MIN_PRODUCTS
+        ? Math.min(MARQUEE_MAX_PRODUCTS, Math.max(MARQUEE_MIN_PRODUCTS, MARQUEE_TARGET_PRODUCTS))
+        : totalProducts
+
+    return activeProducts.slice(0, Math.min(targetCount, totalProducts))
   }, [activeProducts])
+
+  const marqueeItems = useMemo(() => {
+    if (!marqueeProducts.length) return []
+    return [...marqueeProducts, ...marqueeProducts]
+  }, [marqueeProducts])
 
   const openWhatsApp = () => {
     const msg = encodeURIComponent('¡Hola Alma de Granja! Me gustaría hacer un pedido 🌿')
@@ -149,27 +164,36 @@ export default function Hero() {
 
       {!!marqueeItems.length && (
         <div className="absolute bottom-0 left-0 right-0 z-10">
-          <div className="pointer-events-none absolute inset-y-0 left-0 w-16 sm:w-28 bg-gradient-to-r from-olive-900/95 to-transparent" />
-          <div className="pointer-events-none absolute inset-y-0 right-0 w-16 sm:w-28 bg-gradient-to-l from-olive-900/95 to-transparent" />
+          <div className="pointer-events-none absolute inset-y-0 left-0 w-16 sm:w-24 lg:w-28 bg-gradient-to-r from-olive-900/95 via-olive-900/65 to-transparent" />
+          <div className="pointer-events-none absolute inset-y-0 right-0 w-16 sm:w-24 lg:w-28 bg-gradient-to-l from-olive-900/95 via-olive-900/65 to-transparent" />
 
-          <div className="hero-marquee-wrapper border-y border-white/15 bg-black/25 backdrop-blur-sm py-3 sm:py-4">
+          <div className="hero-marquee-wrapper border-y border-white/15 bg-black/25 backdrop-blur-sm py-2.5 sm:py-3">
             <div
-              className="hero-marquee-track flex items-center gap-3 sm:gap-4 w-max hover:[animation-play-state:paused]"
-              style={{ animationDuration: `${Math.max(34, activeProducts.length * 7)}s` }}
+              className="hero-marquee-track flex items-center gap-3 sm:gap-4 md:gap-5 w-max md:hover:[animation-play-state:paused]"
+              style={{ animationDuration: `${Math.max(36, marqueeProducts.length * 7)}s` }}
             >
               {marqueeItems.map((product, index) => (
-                <figure
+                <div
                   key={`${product.id}-${index}`}
-                  className="h-16 w-24 sm:h-20 sm:w-32 md:h-24 md:w-40 rounded-xl overflow-hidden border border-white/20 bg-white/10 shrink-0"
+                  className="hero-marquee-item group shrink-0"
+                  style={{
+                    '--depth': Math.abs((index % marqueeProducts.length) - (marqueeProducts.length - 1) / 2),
+                    '--max-depth': Math.max(1, (marqueeProducts.length - 1) / 2),
+                  }}
                 >
-                  <img
-                    src={product.image}
-                    alt={product.name}
-                    className="w-full h-full object-cover"
-                    loading="lazy"
-                    decoding="async"
-                  />
-                </figure>
+                  <figure className="hero-marquee-circle relative h-14 w-14 sm:h-16 sm:w-16 md:h-20 md:w-20 lg:h-[5.5rem] lg:w-[5.5rem] overflow-hidden rounded-full border border-white/35 bg-white/10 shadow-[0_8px_22px_rgba(0,0,0,0.24)] transition-transform duration-400 ease-out group-hover:scale-105">
+                    <img
+                      src={product.image}
+                      alt={product.name}
+                      className="h-full w-full object-cover"
+                      loading="lazy"
+                      decoding="async"
+                    />
+                  </figure>
+                  <span className="pointer-events-none absolute -bottom-6 left-1/2 hidden -translate-x-1/2 whitespace-nowrap rounded-full bg-black/45 px-2.5 py-1 text-[11px] font-medium text-cream-100 opacity-0 backdrop-blur-sm transition-opacity duration-300 md:block md:group-hover:opacity-100">
+                    {product.name}
+                  </span>
+                </div>
               ))}
             </div>
           </div>
