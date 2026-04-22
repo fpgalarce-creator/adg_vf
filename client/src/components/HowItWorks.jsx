@@ -21,24 +21,25 @@ const steps = [
 
 export default function HowItWorks() {
   return (
-    <section className="bg-[#F8F7F4] py-20 sm:py-24 overflow-hidden">
+    <section className="bg-[#F8F7F4] py-18 sm:py-22 lg:py-24 overflow-hidden">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <ScrollAnimation>
-          <div className="text-center mb-12">
+          <div className="text-center mb-10 sm:mb-12">
             <span className="inline-block text-olive-600 text-sm font-semibold uppercase tracking-[0.15em] mb-3">Cómo comprar</span>
-            <h2 className="font-heading font-bold text-3xl sm:text-4xl lg:text-5xl text-dark mb-4">Compra en 3 pasos</h2>
+            <h2 className="font-heading font-bold text-3xl sm:text-4xl lg:text-5xl text-dark mb-3">Compra en 3 pasos</h2>
+            <p className="text-dark-light/70 max-w-2xl mx-auto">Un flujo simple para elegir, confirmar y cerrar tu pedido sin fricción.</p>
           </div>
         </ScrollAnimation>
 
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 lg:gap-8">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-5 lg:gap-7">
           {steps.map((step, index) => (
             <ScrollAnimation key={step.title} delay={index * 90}>
-              <div className="h-full bg-white rounded-2xl p-8 border border-olive-100 shadow-sm">
+              <div className="h-full bg-white rounded-2xl p-6 sm:p-7 border border-olive-100 shadow-sm">
                 <div className="w-12 h-12 rounded-xl bg-olive-100 text-olive-700 flex items-center justify-center mb-5">
                   <step.icon size={22} />
                 </div>
                 <h3 className="font-heading font-semibold text-xl text-dark mb-3">{step.title}</h3>
-                <p className="text-dark-light/70 leading-relaxed">{step.description}</p>
+                <p className="text-dark-light/70 leading-relaxed text-[0.98rem]">{step.description}</p>
               </div>
             </ScrollAnimation>
           ))}
