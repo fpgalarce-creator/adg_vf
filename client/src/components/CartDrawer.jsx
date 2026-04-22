@@ -33,7 +33,7 @@ export default function CartDrawer() {
     const message = `¡Hola Alma de Granja! 🌿\n\nMe gustaría hacer el siguiente pedido:\n\n${productLines}\n\n💰 *Total estimado: ${formatPrice(totalPrice)}*\n\n📋 *Datos de envío:*\nNombre: ${form.nombre}\nLocalidad: ${form.localidad}\nDirección: ${form.direccion}${form.comentario ? `\nComentario: ${form.comentario}` : ''}\n\n¡Quedo atento/a a la confirmación! 🙌`
 
     const encoded = encodeURIComponent(message)
-    window.open(`https://wa.me/56990861197?text=${encoded}`, '_blank')
+    window.open(`https://wa.me/56958086762?text=${encoded}`, '_blank')
   }
 
   return (

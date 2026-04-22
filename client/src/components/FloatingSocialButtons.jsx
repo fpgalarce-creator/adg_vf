@@ -1,6 +1,6 @@
 import { MessageCircle } from 'lucide-react'
 
-const WHATSAPP_NUMBER = '56990861197'
+const WHATSAPP_NUMBER = '56958086762'
 const INSTAGRAM_URL = 'https://www.instagram.com/almadegranja.cl/'
 
 function InstagramIcon(props) {
