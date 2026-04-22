@@ -92,3 +92,32 @@
     }
   }
 }
+
+@layer utilities {
+  @keyframes heroMarquee {
+    from {
+      transform: translateX(0);
+    }
+    to {
+      transform: translateX(-50%);
+    }
+  }
+
+  .hero-marquee-wrapper {
+    overflow: hidden;
+    mask-image: linear-gradient(to right, transparent, black 9%, black 91%, transparent);
+  }
+
+  .hero-marquee-track {
+    animation-name: heroMarquee;
+    animation-timing-function: linear;
+    animation-iteration-count: infinite;
+    will-change: transform;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .hero-marquee-track {
+      animation-play-state: paused;
+    }
+  }
+}

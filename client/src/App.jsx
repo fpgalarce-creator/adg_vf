@@ -2,7 +2,6 @@ import { useEffect } from 'react'
 import { Routes, Route, useLocation } from 'react-router-dom'
 import Navbar from './components/Navbar.jsx'
 import Hero from './components/Hero.jsx'
-import HowItWorks from './components/HowItWorks.jsx'
 import FeaturedProducts from './components/FeaturedProducts.jsx'
 import Products from './components/Products.jsx'
 import AboutUs from './components/AboutUs.jsx'
@@ -41,7 +40,6 @@ function LandingPage() {
     <PublicLayout>
       <Hero />
       <FeaturedProducts />
-      <HowItWorks />
       <Benefits />
       <AboutUs />
       <Contact />
