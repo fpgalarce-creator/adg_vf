@@ -1,0 +1,4 @@
+interface:
+  display_name: "Skill Starter"
+  short_description: "Create and iterate a new Codex skill from a concrete workflow."
+  default_prompt: "Help me define and build a new Codex skill for my recurring task."
