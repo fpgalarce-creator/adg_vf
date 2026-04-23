@@ -33,27 +33,27 @@ export default function FeaturedProducts() {
   if (!highlightedProducts.length) return null
 
   return (
-    <section className="py-20 sm:py-24 lg:py-28 bg-white">
+    <section className="py-20 sm:py-24 lg:py-28 bg-[color:var(--bg-secondary)]">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <ScrollAnimation>
           <div className="flex flex-col gap-6 sm:flex-row sm:items-end sm:justify-between mb-10">
             <div className="max-w-2xl">
-              <span className="inline-block text-gold-500 text-sm font-semibold uppercase tracking-[0.15em] mb-3">Selección curada</span>
-              <h2 className="font-heading font-bold text-3xl sm:text-4xl lg:text-5xl text-dark mb-4">Destacados de la granja</h2>
-              <p className="text-dark-light/70 text-lg">Nuestros productos más recomendados para una compra rápida, simple y premium.</p>
+              <span className="inline-block text-[color:var(--accent)] text-sm font-semibold uppercase tracking-[0.15em] mb-3">Selección curada</span>
+              <h2 className="font-heading font-bold text-3xl sm:text-4xl lg:text-5xl text-[color:var(--text-primary)] mb-4">Destacados de la granja</h2>
+              <p className="text-[color:var(--text-secondary)] text-lg">Nuestros productos más recomendados para una compra rápida, simple y premium.</p>
             </div>
 
             <div className="hidden md:flex items-center gap-3">
               <button
                 onClick={() => moveCarousel(-1)}
-                className="h-11 w-11 rounded-full border border-olive-200 text-olive-700 hover:bg-olive-50 transition"
+                className="h-11 w-11 rounded-full border border-[color:var(--border-soft)] text-[color:var(--primary)] hover:bg-[color:var(--bg-primary)] transition"
                 aria-label="Ver productos anteriores"
               >
                 <ChevronLeft className="mx-auto" size={20} />
               </button>
               <button
                 onClick={() => moveCarousel(1)}
-                className="h-11 w-11 rounded-full border border-olive-200 text-olive-700 hover:bg-olive-50 transition"
+                className="h-11 w-11 rounded-full border border-[color:var(--border-soft)] text-[color:var(--primary)] hover:bg-[color:var(--bg-primary)] transition"
                 aria-label="Ver productos siguientes"
               >
                 <ChevronRight className="mx-auto" size={20} />

@@ -5,17 +5,17 @@ import ScrollAnimation from './ScrollAnimation.jsx'
 
 export default function Gallery() {
   return (
-    <section className="py-24 sm:py-32 bg-cream-50">
+    <section className="py-24 sm:py-32 bg-[color:var(--bg-secondary)]">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <ScrollAnimation>
           <div className="text-center mb-16">
-            <span className="inline-block text-olive-600 text-sm font-semibold uppercase tracking-[0.15em] mb-3">
+            <span className="inline-block text-[color:var(--primary)] text-sm font-semibold uppercase tracking-[0.15em] mb-3">
               Nuestro mundo
             </span>
-            <h2 className="font-heading font-bold text-3xl sm:text-4xl lg:text-5xl text-dark mb-4">
+            <h2 className="font-heading font-bold text-3xl sm:text-4xl lg:text-5xl text-[color:var(--text-primary)] mb-4">
               Del campo a tu mesa
             </h2>
-            <p className="text-dark-light/70 text-lg max-w-2xl mx-auto">
+            <p className="text-[color:var(--text-secondary)] text-lg max-w-2xl mx-auto">
               Un vistazo a nuestro origen, nuestros productos y la dedicación que ponemos en cada detalle.
             </p>
           </div>
