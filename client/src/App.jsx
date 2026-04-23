@@ -4,7 +4,6 @@ import Navbar from './components/Navbar.jsx'
 import Hero from './components/Hero.jsx'
 import HeroInfoBar from './components/HeroInfoBar.jsx'
 import Products from './components/Products.jsx'
-import HowItWorks from './components/HowItWorks.jsx'
 import AboutUs from './components/AboutUs.jsx'
 import Benefits from './components/Benefits.jsx'
 import Contact from './components/Contact.jsx'
@@ -41,7 +40,6 @@ function LandingPage() {
     <PublicLayout>
       <Hero />
       <HeroInfoBar />
-      <HowItWorks />
       <Benefits />
       <AboutUs />
       <Contact />
