@@ -5,7 +5,6 @@ import Hero from './components/Hero.jsx'
 import HeroInfoBar from './components/HeroInfoBar.jsx'
 import Products from './components/Products.jsx'
 import AboutUs from './components/AboutUs.jsx'
-import Benefits from './components/Benefits.jsx'
 import Contact from './components/Contact.jsx'
 import Footer from './components/Footer.jsx'
 import CartDrawer from './components/CartDrawer.jsx'
@@ -40,7 +39,6 @@ function LandingPage() {
     <PublicLayout>
       <Hero />
       <HeroInfoBar />
-      <Benefits />
       <AboutUs />
       <Contact />
     </PublicLayout>
