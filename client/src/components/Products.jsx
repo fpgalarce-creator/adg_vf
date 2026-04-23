@@ -1,7 +1,8 @@
 import { useState, useMemo } from 'react'
-import { Search, SlidersHorizontal, ArrowUpDown } from 'lucide-react'
+import { Search, SlidersHorizontal, ArrowUpDown, Sparkles } from 'lucide-react'
 import { ProductCard } from './ProductCard.jsx'
 import { useProducts } from '../hooks/useProducts.js'
+import { getHighlightedProducts } from '../utils/featuredProducts.js'
 
 const categoryOrder = ['Todos', 'Huevos', 'Quesos', 'Frutos secos', 'Aceite de oliva', 'Otros', 'Canastas']
 
@@ -10,6 +11,8 @@ export default function Products() {
   const [searchQuery, setSearchQuery] = useState('')
   const [activeCategory, setActiveCategory] = useState('Todos')
   const [sortOrder, setSortOrder] = useState('featured')
+
+  const highlightedProducts = useMemo(() => getHighlightedProducts(products, 6), [products])
 
   const categories = useMemo(() => {
     const normalized = products
@@ -59,11 +62,29 @@ export default function Products() {
   return (
     <section id="productos" className="pt-32 pb-24 sm:pb-28 bg-cream-50 min-h-screen">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="text-center mb-10">
+        <div id="destacados" className="text-center mb-10">
           <span className="inline-block text-olive-600 text-sm font-semibold uppercase tracking-[0.15em] mb-3">Catálogo</span>
           <h1 className="font-heading font-bold text-3xl sm:text-4xl lg:text-5xl text-dark mb-4">Todos nuestros productos</h1>
           <p className="text-dark-light/70 text-lg max-w-2xl mx-auto">Explora el catálogo completo, filtra por categoría y agrega productos a tu cesta con un flujo rápido y ordenado.</p>
         </div>
+
+        {highlightedProducts.length > 0 && (
+          <section className="mb-10 rounded-[2rem] border border-olive-200/80 bg-white p-5 sm:p-7 shadow-[0_16px_40px_rgba(15,23,42,0.06)]">
+            <div className="mb-6 flex flex-col gap-2 sm:flex-row sm:items-end sm:justify-between">
+              <div>
+                <p className="inline-flex items-center gap-2 text-gold-600 text-xs sm:text-sm font-semibold uppercase tracking-[0.15em]"><Sparkles size={14} /> Selección destacada</p>
+                <h2 className="font-heading font-bold text-2xl sm:text-3xl text-dark mt-2">Lo mejor de la semana</h2>
+              </div>
+              <p className="text-sm text-dark-light/65">Productos recomendados para compra rápida.</p>
+            </div>
+
+            <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-5 lg:gap-6">
+              {highlightedProducts.map((product) => (
+                <ProductCard key={`featured-${product.id}`} product={product} featured />
+              ))}
+            </div>
+          </section>
+        )}
 
         <div className="rounded-2xl border border-olive-200/70 bg-white p-4 sm:p-6 mb-8 space-y-4">
           <div className="relative">
