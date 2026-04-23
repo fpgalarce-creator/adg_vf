@@ -102,4 +102,23 @@
       opacity: 1;
     }
   }
+
+  @keyframes iconSoftFloat {
+    0%, 100% {
+      transform: translateY(0);
+    }
+    50% {
+      transform: translateY(-1.5px);
+    }
+  }
+
+  .icon-soft-float {
+    animation: iconSoftFloat 3.4s ease-in-out infinite;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .icon-soft-float {
+      animation: none;
+    }
+  }
 }
