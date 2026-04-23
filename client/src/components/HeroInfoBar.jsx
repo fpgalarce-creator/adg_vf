@@ -23,13 +23,13 @@ export default function HeroInfoBar() {
     <section aria-label="Información de despacho y compra" className="relative -mt-2 z-20 pb-4 sm:pb-6 lg:pb-8">
       <ScrollAnimation>
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="relative overflow-hidden rounded-[1.8rem] sm:rounded-[2.1rem] border border-olive-400/45 bg-gradient-to-br from-[#353b27] via-[#2f3425] to-[#24291f] shadow-[0_20px_54px_rgba(12,16,10,0.35)] px-6 py-7 sm:px-8 sm:py-9 lg:px-11 lg:py-11">
-            <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_top_right,rgba(212,176,106,0.17),transparent_38%),radial-gradient(circle_at_bottom_left,rgba(125,133,88,0.2),transparent_42%)]" aria-hidden="true" />
+          <div className="relative overflow-hidden rounded-[1.8rem] sm:rounded-[2.1rem] border border-white/10 bg-[color:var(--bg-dark)] shadow-[0_20px_54px_rgba(12,16,10,0.35)] px-6 py-7 sm:px-8 sm:py-9 lg:px-11 lg:py-11">
+            <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_top_right,rgba(194,168,120,0.17),transparent_38%),radial-gradient(circle_at_bottom_left,rgba(124,143,108,0.2),transparent_42%)]" aria-hidden="true" />
 
             <div className="relative flex flex-col gap-7 lg:flex-row lg:items-center lg:gap-10">
               <div className="lg:w-[43%]">
                 <p className="inline-flex items-center gap-2 text-cream-200/95 text-[0.68rem] sm:text-xs uppercase tracking-[0.18em] font-semibold mb-3">
-                  <MapPin size={14} className="text-gold-400 icon-soft-float" />
+                  <MapPin size={14} className="text-[color:var(--accent)] icon-soft-float" />
                   Zonas de despacho
                 </p>
                 <p className="text-cream-50 text-lg sm:text-[1.34rem] font-medium leading-relaxed text-balance">
@@ -40,7 +40,7 @@ export default function HeroInfoBar() {
               <div className="hidden lg:block w-px self-stretch bg-gradient-to-b from-transparent via-cream-200/40 to-transparent" aria-hidden="true" />
 
               <div className="lg:flex-1">
-                <p className="text-gold-400 text-[0.68rem] sm:text-xs uppercase tracking-[0.18em] font-semibold mb-4">Compra rápida</p>
+                <p className="text-[color:var(--accent)] text-[0.68rem] sm:text-xs uppercase tracking-[0.18em] font-semibold mb-4">Compra rápida</p>
                 <ol className="flex flex-col gap-3.5 md:gap-4 md:flex-row md:flex-wrap md:items-center md:gap-y-3">
                   {steps.map((step, index) => {
                     const Icon = step.icon
@@ -56,9 +56,9 @@ export default function HeroInfoBar() {
                     return (
                       <li key={step.label} className="flex items-center gap-2.5">
                         {step.to ? (
-                          <Link to={step.to} className="group inline-flex items-center gap-2.5 rounded-full px-2.5 py-1.5 -mx-2 transition-all duration-300 hover:bg-cream-50/12 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold-400/70">
+                          <Link to={step.to} className="group inline-flex items-center gap-2.5 rounded-full px-2.5 py-1.5 -mx-2 transition-all duration-300 hover:bg-cream-50/12 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[color:var(--accent)]/70">
                             {content}
-                            <ArrowRight size={14} className="text-gold-400/95 transition-transform duration-300 group-hover:translate-x-0.5" />
+                            <ArrowRight size={14} className="text-[color:var(--accent-soft)] transition-transform duration-300 group-hover:translate-x-0.5" />
                           </Link>
                         ) : (
                           <div className="inline-flex items-center gap-2.5 px-0.5">{content}</div>

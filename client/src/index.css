@@ -1,44 +1,57 @@
 @import "tailwindcss";
 
 @theme {
-  --color-olive-50: #f6f7f2;
-  --color-olive-100: #e8eadd;
-  --color-olive-200: #d3d7be;
-  --color-olive-300: #b5bb96;
-  --color-olive-400: #9ba275;
-  --color-olive-500: #7d8558;
-  --color-olive-600: #5c6b3c;
-  --color-olive-700: #4a5532;
-  --color-olive-800: #3d452b;
-  --color-olive-900: #353b27;
-
-  --color-cream-50: #fefdfb;
-  --color-cream-100: #faf8f3;
-  --color-cream-200: #f5f0e8;
-  --color-cream-300: #ede5d8;
-  --color-cream-400: #e0d4c0;
-  --color-cream-500: #d1c2a8;
-
-  --color-gold-400: #d4b06a;
-  --color-gold-500: #c4a35a;
-  --color-gold-600: #b08d3e;
-
-  --color-dark: #2d2d2d;
-  --color-dark-light: #4a4a4a;
+  --color-bg-primary: #F5F3EF;
+  --color-bg-secondary: #EFEDE8;
+  --color-bg-card: #FFFFFF;
+  --color-bg-dark: #2F3A2E;
+  --color-bg-dark-soft: #3A4638;
+  --color-primary: #5E6F52;
+  --color-primary-hover: #4F5E45;
+  --color-primary-light: #7C8F6C;
+  --color-accent: #C2A878;
+  --color-accent-soft: #D8C4A0;
+  --color-text-primary: #2B2B28;
+  --color-text-secondary: #6B6B63;
+  --color-text-light: #F5F3EF;
+  --color-border-soft: #E0DED8;
+  --color-border-light: #ECEAE5;
+  --color-whatsapp: #25D366;
+  --color-whatsapp-hover: #1ebe5d;
 
   --font-heading: 'Outfit', sans-serif;
   --font-body: 'Inter', sans-serif;
 }
 
 @layer base {
+  :root {
+    --bg-primary: #F5F3EF;
+    --bg-secondary: #EFEDE8;
+    --bg-card: #FFFFFF;
+    --bg-dark: #2F3A2E;
+    --bg-dark-soft: #3A4638;
+    --primary: #5E6F52;
+    --primary-hover: #4F5E45;
+    --primary-light: #7C8F6C;
+    --accent: #C2A878;
+    --accent-soft: #D8C4A0;
+    --text-primary: #2B2B28;
+    --text-secondary: #6B6B63;
+    --text-light: #F5F3EF;
+    --border-soft: #E0DED8;
+    --border-light: #ECEAE5;
+    --whatsapp: #25D366;
+    --whatsapp-hover: #1ebe5d;
+  }
+
   html {
     scroll-behavior: smooth;
   }
 
   body {
     font-family: var(--font-body);
-    color: var(--color-dark);
-    background-color: var(--color-cream-50);
+    color: var(--text-primary);
+    background: radial-gradient(circle at top, #ffffff 0%, var(--bg-primary) 100%);
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
   }
@@ -52,14 +65,14 @@
     width: 6px;
   }
   ::-webkit-scrollbar-track {
-    background: var(--color-cream-100);
+    background: var(--bg-secondary);
   }
   ::-webkit-scrollbar-thumb {
-    background: var(--color-olive-400);
+    background: var(--primary-light);
     border-radius: 3px;
   }
   ::-webkit-scrollbar-thumb:hover {
-    background: var(--color-olive-500);
+    background: var(--primary);
   }
 }
 

@@ -35,15 +35,15 @@ const promoCategories = [
 
 export default function PromotionalCategories() {
   return (
-    <section aria-label="Categorías promocionales" className="pb-14 sm:pb-20">
+    <section aria-label="Categorías promocionales" className="pb-14 sm:pb-20 bg-[color:var(--bg-secondary)]">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <ScrollAnimation>
           <div className="mb-7 sm:mb-9">
-            <span className="inline-flex items-center rounded-full bg-olive-100 text-olive-700 px-3 py-1 text-[0.68rem] sm:text-xs uppercase tracking-[0.16em] font-semibold">
+            <span className="inline-flex items-center rounded-full bg-[color:var(--bg-primary)] text-[color:var(--primary)] border border-[color:var(--border-soft)] px-3 py-1 text-[0.68rem] sm:text-xs uppercase tracking-[0.16em] font-semibold">
               Explora por categoría
             </span>
-            <h2 className="mt-3 font-heading text-2xl sm:text-3xl lg:text-[2.05rem] font-semibold text-dark">Una selección curada para comprar mejor</h2>
-            <p className="mt-3 text-dark-light/75 max-w-2xl">Accede directo a categorías destacadas y encuentra productos premium en segundos.</p>
+            <h2 className="mt-3 font-heading text-2xl sm:text-3xl lg:text-[2.05rem] font-semibold text-[color:var(--text-primary)]">Una selección curada para comprar mejor</h2>
+            <p className="mt-3 text-[color:var(--text-secondary)] max-w-2xl">Accede directo a categorías destacadas y encuentra productos premium en segundos.</p>
           </div>
         </ScrollAnimation>
 
@@ -69,7 +69,7 @@ export default function PromotionalCategories() {
                   <h3 className="text-cream-50 font-heading text-2xl sm:text-[1.7rem] leading-tight font-semibold text-balance">{category.title}</h3>
                   <p className="mt-2 text-cream-100/90 text-sm sm:text-[0.95rem] max-w-[34ch]">{category.description}</p>
 
-                  <span className="mt-4 inline-flex items-center gap-2 text-gold-400 font-medium text-sm sm:text-[0.95rem]">
+                  <span className="mt-4 inline-flex items-center gap-2 text-[color:var(--accent-soft)] font-medium text-sm sm:text-[0.95rem]">
                     Ver productos
                     <ArrowUpRight size={16} className="transition-transform duration-300 group-hover:-translate-y-0.5 group-hover:translate-x-0.5" />
                   </span>

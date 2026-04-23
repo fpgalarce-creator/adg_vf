@@ -31,7 +31,7 @@ const socialButtons = [
     href: `https://wa.me/${WHATSAPP_NUMBER}`,
     icon: MessageCircle,
     className:
-      'bg-green-600 text-white shadow-[0_10px_28px_rgba(15,118,110,0.35)] hover:bg-green-700 focus-visible:ring-green-500',
+      'bg-[color:var(--whatsapp)] text-white shadow-[0_10px_28px_rgba(15,118,110,0.35)] hover:bg-[color:var(--whatsapp-hover)] focus-visible:ring-[color:var(--whatsapp)]',
   },
   {
     id: 'instagram',
@@ -49,7 +49,7 @@ export default function FloatingSocialButtons() {
       className="fixed right-4 sm:right-6 bottom-[calc(env(safe-area-inset-bottom,0px)+1rem)] sm:bottom-[calc(env(safe-area-inset-bottom,0px)+1.5rem)] z-40 animate-[floatingSocialIn_500ms_ease-out]"
       aria-label="Redes sociales"
     >
-      <div className="flex flex-col gap-3 rounded-3xl bg-white/85 backdrop-blur-md border border-white/60 p-2.5 shadow-[0_14px_42px_rgba(0,0,0,0.16)]">
+      <div className="flex flex-col gap-3 rounded-3xl bg-[color:var(--bg-card)]/90 backdrop-blur-md border border-[color:var(--border-soft)] p-2.5 shadow-[0_14px_42px_rgba(0,0,0,0.16)]">
         {socialButtons.map(({ id, label, href, icon: Icon, className }) => (
           <a
             key={id}

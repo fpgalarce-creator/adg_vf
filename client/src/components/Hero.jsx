@@ -29,7 +29,7 @@ export default function Hero() {
             <ScrollAnimation delay={120}>
               <h1 className="font-bold text-4xl sm:text-5xl lg:text-6xl xl:text-7xl text-white leading-[1.03] mb-6 text-balance" style={{ fontFamily: "'Playfair Display', serif" }}>
               Sabores auténticos,
-              <span className="block text-gold-400 mt-2">calidad que se nota</span>
+              <span className="block text-[color:var(--accent)] mt-2">calidad que se nota</span>
               </h1>
             </ScrollAnimation>
 
@@ -41,11 +41,11 @@ export default function Hero() {
 
             <ScrollAnimation delay={320}>
               <div className="flex flex-col sm:flex-row items-stretch sm:items-center justify-start gap-4">
-              <Link to="/productos" className="group flex items-center justify-center gap-2 bg-cream-50 text-olive-800 px-8 py-4 rounded-full font-semibold text-lg transition-all duration-300 hover:bg-white hover:-translate-y-0.5 shadow-[0_8px_24px_rgba(0,0,0,0.2)]">
+              <Link to="/productos" className="group flex items-center justify-center gap-2 bg-[color:var(--bg-card)] text-[color:var(--text-primary)] px-8 py-4 rounded-full border border-[color:var(--border-soft)] font-semibold text-lg transition-all duration-300 hover:bg-[color:var(--bg-secondary)] hover:-translate-y-0.5 shadow-[0_8px_24px_rgba(0,0,0,0.2)]">
                 Ver productos
                 <ArrowRight size={18} className="transition-transform group-hover:translate-x-1" />
               </Link>
-              <button onClick={openWhatsApp} className="group flex items-center justify-center gap-3 bg-green-600/95 hover:bg-green-700 text-white px-8 py-4 rounded-full font-semibold text-lg transition-all duration-300 shadow-[0_8px_24px_rgba(0,0,0,0.25)]">
+              <button onClick={openWhatsApp} className="group flex items-center justify-center gap-3 bg-[color:var(--whatsapp)] hover:bg-[color:var(--whatsapp-hover)] text-white px-8 py-4 rounded-full font-semibold text-lg transition-all duration-300 shadow-[0_8px_24px_rgba(0,0,0,0.25)]">
                 <MessageCircle size={22} className="transition-transform group-hover:scale-110" />
                 Pedir por WhatsApp
               </button>
@@ -57,7 +57,7 @@ export default function Hero() {
         </div>
       </div>
 
-      <div className="absolute bottom-0 left-0 right-0 h-20 bg-gradient-to-t from-cream-50 to-transparent" />
+      <div className="absolute bottom-0 left-0 right-0 h-20 bg-gradient-to-t from-[color:var(--bg-primary)] to-transparent" />
     </section>
   )
 }

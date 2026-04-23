@@ -48,9 +48,9 @@ export default function HeroCategoriesPanel() {
               <Link
                 key={category.id}
                 to={`/productos?categoria=${category.id}`}
-                className="group overflow-hidden rounded-2xl border border-white/30 bg-white/90 text-dark shadow-[0_10px_26px_rgba(15,23,42,0.14)] transition-all duration-300 hover:-translate-y-1 hover:shadow-[0_18px_30px_rgba(15,23,42,0.2)]"
+                className="group overflow-hidden rounded-2xl border border-[color:var(--border-soft)] bg-[color:var(--bg-card)]/95 text-[color:var(--text-primary)] shadow-[0_10px_26px_rgba(15,23,42,0.14)] transition-all duration-300 hover:-translate-y-1 hover:shadow-[0_18px_30px_rgba(15,23,42,0.2)]"
               >
-                <div className="relative h-28 overflow-hidden bg-cream-100">
+                <div className="relative h-28 overflow-hidden bg-[color:var(--bg-secondary)]">
                   <img
                     src={category.image}
                     alt={category.title}
@@ -62,10 +62,10 @@ export default function HeroCategoriesPanel() {
 
                 <div className="p-3.5">
                   <div className="flex items-start justify-between gap-3">
-                    <h3 className="font-semibold text-[0.96rem] leading-tight text-dark">{category.title}</h3>
-                    <ArrowUpRight size={15} className="mt-0.5 shrink-0 text-olive-700 transition-transform duration-300 group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
+                    <h3 className="font-semibold text-[0.96rem] leading-tight text-[color:var(--text-primary)]">{category.title}</h3>
+                    <ArrowUpRight size={15} className="mt-0.5 shrink-0 text-[color:var(--primary)] transition-transform duration-300 group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
                   </div>
-                  <p className="mt-1.5 text-xs leading-relaxed text-dark-light/80">{category.description}</p>
+                  <p className="mt-1.5 text-xs leading-relaxed text-[color:var(--text-secondary)]">{category.description}</p>
                 </div>
               </Link>
             ))}
