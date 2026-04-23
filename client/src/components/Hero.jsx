@@ -18,7 +18,7 @@ export default function Hero() {
       </div>
 
       <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-24 pb-28 sm:pb-32 lg:pt-28 lg:pb-36">
-        <div className="grid items-start gap-8 lg:gap-12 xl:gap-16 lg:grid-cols-[minmax(0,1.02fr)_minmax(0,0.98fr)]">
+        <div className="grid items-start lg:items-center gap-8 lg:gap-12 xl:gap-16 lg:grid-cols-[minmax(0,1.02fr)_minmax(0,0.98fr)]">
           <div className="max-w-2xl text-left">
             <ScrollAnimation>
               <span className="inline-flex items-center gap-2 bg-white/16 backdrop-blur-md px-5 py-2 rounded-full border border-white/30 mb-7 text-cream-50 text-sm font-medium shadow-[0_8px_28px_rgba(0,0,0,0.2)]">
