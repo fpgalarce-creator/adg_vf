@@ -6,7 +6,6 @@ import { useCart } from '../context/CartContext.jsx'
 
 const homeAnchors = {
   inicio: 'inicio',
-  destacados: 'destacados',
   nosotros: 'nosotros',
   contacto: 'contacto',
 }
@@ -50,7 +49,7 @@ export default function Navbar() {
 
           <div className="hidden md:flex items-center gap-1">
             <button onClick={() => scrollToHomeSection(homeAnchors.inicio)} className={`${linkBase} text-dark-light hover:text-olive-700 hover:bg-olive-100/80`}>Inicio</button>
-            <button onClick={() => scrollToHomeSection(homeAnchors.destacados)} className={`${linkBase} text-dark-light hover:text-olive-700 hover:bg-olive-100/80`}>Destacados</button>
+            <Link to="/productos#destacados" onClick={() => setMobileOpen(false)} className={`${linkBase} text-dark-light hover:text-olive-700 hover:bg-olive-100/80`}>Destacados</Link>
             <NavLink to="/productos" className={({ isActive }) => `${linkBase} ${isActive ? 'bg-olive-600 text-white shadow-md shadow-olive-900/20' : 'text-dark-light hover:text-olive-700 hover:bg-olive-100/80'}`}>Productos</NavLink>
             <button onClick={() => scrollToHomeSection(homeAnchors.nosotros)} className={`${linkBase} text-dark-light hover:text-olive-700 hover:bg-olive-100/80`}>Nosotros</button>
             <button onClick={() => scrollToHomeSection(homeAnchors.contacto)} className={`${linkBase} text-dark-light hover:text-olive-700 hover:bg-olive-100/80`}>Contacto</button>
@@ -72,7 +71,7 @@ export default function Navbar() {
       <div className={`md:hidden transition-all duration-300 overflow-hidden ${mobileOpen ? 'max-h-80 opacity-100' : 'max-h-0 opacity-0'}`}>
         <div className="bg-white border-t border-olive-200/50 px-4 py-4 space-y-1">
           <button onClick={() => scrollToHomeSection(homeAnchors.inicio)} className="block w-full text-left px-4 py-3 rounded-xl text-dark-light hover:bg-olive-100 hover:text-olive-700 font-medium">Inicio</button>
-          <button onClick={() => scrollToHomeSection(homeAnchors.destacados)} className="block w-full text-left px-4 py-3 rounded-xl text-dark-light hover:bg-olive-100 hover:text-olive-700 font-medium">Destacados</button>
+          <Link to="/productos#destacados" onClick={() => setMobileOpen(false)} className="block w-full text-left px-4 py-3 rounded-xl text-dark-light hover:bg-olive-100 hover:text-olive-700 font-medium">Destacados</Link>
           <Link to="/productos" onClick={() => setMobileOpen(false)} className={`block w-full text-left px-4 py-3 rounded-xl font-medium ${location.pathname === '/productos' ? 'bg-olive-600 text-white' : 'text-dark-light hover:bg-olive-100 hover:text-olive-700'}`}>Productos</Link>
           <button onClick={() => scrollToHomeSection(homeAnchors.nosotros)} className="block w-full text-left px-4 py-3 rounded-xl text-dark-light hover:bg-olive-100 hover:text-olive-700 font-medium">Nosotros</button>
           <button onClick={() => scrollToHomeSection(homeAnchors.contacto)} className="block w-full text-left px-4 py-3 rounded-xl text-dark-light hover:bg-olive-100 hover:text-olive-700 font-medium">Contacto</button>

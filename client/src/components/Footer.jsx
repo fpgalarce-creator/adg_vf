@@ -27,7 +27,7 @@ export default function Footer() {
             <h4 className="font-heading font-semibold text-sm uppercase tracking-wider text-cream-500/70 mb-4">Navegación</h4>
             <ul className="space-y-2">
               <li><button onClick={() => scrollTo('inicio')} className="text-cream-500/70 hover:text-white text-sm">Inicio</button></li>
-              <li><button onClick={() => scrollTo('destacados')} className="text-cream-500/70 hover:text-white text-sm">Destacados</button></li>
+              <li><Link to="/productos#destacados" className="text-cream-500/70 hover:text-white text-sm">Destacados</Link></li>
               <li><Link to="/productos" className="text-cream-500/70 hover:text-white text-sm">Productos</Link></li>
               <li><button onClick={() => scrollTo('nosotros')} className="text-cream-500/70 hover:text-white text-sm">Nosotros</button></li>
               <li><button onClick={() => scrollTo('contacto')} className="text-cream-500/70 hover:text-white text-sm">Contacto</button></li>
