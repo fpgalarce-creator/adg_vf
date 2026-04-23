@@ -1,13 +1,53 @@
-import { useState, useMemo } from 'react'
+import { useState, useMemo, useEffect } from 'react'
+import { useSearchParams } from 'react-router-dom'
 import { Search, SlidersHorizontal, ArrowUpDown, Sparkles } from 'lucide-react'
 import { ProductCard } from './ProductCard.jsx'
 import { useProducts } from '../hooks/useProducts.js'
 import { getHighlightedProducts } from '../utils/featuredProducts.js'
 
-const categoryOrder = ['Todos', 'Huevos', 'Quesos', 'Frutos secos', 'Aceite de oliva', 'Otros', 'Canastas']
+const categoryOrder = ['Todos', 'Huevos de campo', 'Huevos', 'Quesos', 'Frutos secos', 'Canastas', 'Aceite de oliva', 'Otros']
+
+const normalize = (value = '') => value
+  .normalize('NFD')
+  .replace(/[\u0300-\u036f]/g, '')
+  .toLowerCase()
+  .trim()
+
+const toCategoryParam = (value = '') => normalize(value).replace(/\s+/g, '-')
+
+const categoryParamAliases = {
+  huevos: 'huevos de campo',
+  'huevos-de-campo': 'huevos de campo',
+  'frutos-secos': 'frutos secos',
+  frutossecos: 'frutos secos',
+  quesos: 'quesos',
+  canastas: 'canastas',
+  'canastas-y-packs': 'canastas',
+}
+
+const resolveCategoryFromParam = (param, availableCategories) => {
+  if (!param) return null
+
+  const normalizedParam = normalize(param)
+  const normalizedTarget = categoryParamAliases[normalizedParam] ?? normalizedParam
+
+  const directMatch = availableCategories.find((category) => normalize(category) === normalizedTarget)
+  if (directMatch) return directMatch
+
+  const includesMatch = availableCategories.find((category) => normalize(category).includes(normalizedTarget))
+  if (includesMatch) return includesMatch
+
+  if (normalizedTarget === 'canastas') {
+    const fallback = availableCategories.find((category) => normalize(category) === 'otros')
+    if (fallback) return fallback
+  }
+
+  return null
+}
 
 export default function Products() {
   const { products } = useProducts()
+  const [searchParams, setSearchParams] = useSearchParams()
   const [searchQuery, setSearchQuery] = useState('')
   const [activeCategory, setActiveCategory] = useState('Todos')
   const [sortOrder, setSortOrder] = useState('featured')
@@ -33,6 +73,16 @@ export default function Products() {
     return ['Todos', ...ordered]
   }, [products])
 
+  useEffect(() => {
+    const categoryFromUrl = searchParams.get('categoria')
+    if (!categoryFromUrl) return
+
+    const matchedCategory = resolveCategoryFromParam(categoryFromUrl, categories)
+    if (matchedCategory && matchedCategory !== activeCategory) {
+      setActiveCategory(matchedCategory)
+    }
+  }, [searchParams, categories, activeCategory])
+
   const filteredProducts = useMemo(() => {
     let list = products.filter((p) => p.active)
 
@@ -53,8 +103,20 @@ export default function Products() {
     return sorted
   }, [products, activeCategory, searchQuery, sortOrder])
 
+  const setCategoryAndUrl = (category) => {
+    setActiveCategory(category)
+
+    const nextParams = new URLSearchParams(searchParams)
+    if (category === 'Todos') {
+      nextParams.delete('categoria')
+    } else {
+      nextParams.set('categoria', toCategoryParam(category))
+    }
+    setSearchParams(nextParams, { replace: true })
+  }
+
   const clearFilters = () => {
-    setActiveCategory('Todos')
+    setCategoryAndUrl('Todos')
     setSearchQuery('')
     setSortOrder('featured')
   }
@@ -102,7 +164,7 @@ export default function Products() {
             <div className="flex items-center gap-2 flex-wrap">
               <SlidersHorizontal size={16} className="text-olive-600 hidden sm:block" />
               {categories.map((cat) => (
-                <button key={cat} onClick={() => setActiveCategory(cat)} className={`px-4 py-2 rounded-full text-sm font-medium transition ${activeCategory === cat ? 'bg-olive-600 text-white' : 'bg-cream-50 text-dark-light border border-olive-200 hover:bg-olive-100'}`}>
+                <button key={cat} onClick={() => setCategoryAndUrl(cat)} className={`px-4 py-2 rounded-full text-sm font-medium transition ${activeCategory === cat ? 'bg-olive-600 text-white' : 'bg-cream-50 text-dark-light border border-olive-200 hover:bg-olive-100'}`}>
                   {cat}
                 </button>
               ))}

@@ -2,7 +2,7 @@ import { Link } from 'react-router-dom'
 import { MessageCircle, ArrowRight } from 'lucide-react'
 import heroImg from '../assets/contenido.jpeg'
 import ScrollAnimation from './ScrollAnimation.jsx'
-import HeroFeaturedCarousel from './HeroFeaturedCarousel.jsx'
+import HeroCategoriesPanel from './HeroCategoriesPanel.jsx'
 
 export default function Hero() {
   const openWhatsApp = () => {
@@ -53,7 +53,7 @@ export default function Hero() {
             </ScrollAnimation>
           </div>
 
-          <HeroFeaturedCarousel />
+          <HeroCategoriesPanel />
         </div>
       </div>
 
