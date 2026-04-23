@@ -14,14 +14,14 @@ export default function Hero() {
     <section id="inicio" className="relative overflow-hidden">
       <div className="absolute inset-0">
         <img src={heroImg} alt="Campo verde con productos frescos" className="w-full h-full object-cover object-[52%_30%]" />
-        <div className="absolute inset-0 bg-gradient-to-br from-black/70 via-black/50 to-olive-900/75" />
+        <div className="absolute inset-0 bg-gradient-to-br from-[#1d2419]/58 via-[#222a1f]/38 to-[#38442f]/56" />
       </div>
 
       <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-24 pb-28 sm:pb-32 lg:pt-28 lg:pb-36">
         <div className="grid items-start gap-8 lg:gap-12 xl:gap-16 lg:grid-cols-[minmax(0,1.02fr)_minmax(0,0.98fr)]">
           <div className="max-w-2xl text-left">
             <ScrollAnimation>
-              <span className="inline-flex items-center gap-2 bg-white/12 backdrop-blur-md px-5 py-2 rounded-full border border-white/25 mb-7 text-cream-100 text-sm font-medium shadow-[0_8px_28px_rgba(0,0,0,0.22)]">
+              <span className="inline-flex items-center gap-2 bg-white/16 backdrop-blur-md px-5 py-2 rounded-full border border-white/30 mb-7 text-cream-50 text-sm font-medium shadow-[0_8px_28px_rgba(0,0,0,0.2)]">
               Selección premium del campo chileno
               </span>
             </ScrollAnimation>
@@ -34,7 +34,7 @@ export default function Hero() {
             </ScrollAnimation>
 
             <ScrollAnimation delay={220}>
-              <p className="text-cream-100/95 text-lg sm:text-xl max-w-xl mb-9 leading-relaxed">
+              <p className="text-cream-50/95 text-lg sm:text-xl max-w-xl mb-9 leading-relaxed">
               Productos de campo seleccionados con estándar boutique: huevos, quesos, frutos secos y canastas para regalar o disfrutar en casa.
               </p>
             </ScrollAnimation>
