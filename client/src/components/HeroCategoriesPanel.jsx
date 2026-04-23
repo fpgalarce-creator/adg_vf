@@ -32,39 +32,33 @@ const categoryCards = [
 export default function HeroCategoriesPanel() {
   return (
     <ScrollAnimation delay={180}>
-      <aside className="relative rounded-[2rem] border border-white/30 bg-white/16 p-5 sm:p-6 backdrop-blur-md shadow-[0_20px_48px_rgba(15,23,42,0.2)]">
-        <div className="pointer-events-none absolute inset-0 rounded-[2rem] bg-gradient-to-br from-white/20 via-white/[0.06] to-transparent" />
+      <aside className="w-full lg:max-w-[36rem] lg:justify-self-end lg:pt-2 xl:pt-4">
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-3.5 sm:gap-4 lg:gap-5">
+          {categoryCards.map((category) => (
+            <Link
+              key={category.id}
+              to={`/productos?categoria=${category.id}`}
+              className="group relative isolate flex aspect-[1.2/1] sm:aspect-[1.03/1] overflow-hidden rounded-2xl text-white transition-all duration-300 ease-out hover:-translate-y-1 hover:shadow-[0_14px_30px_rgba(15,23,42,0.28)]"
+              aria-label={`Ver categoría ${category.title}`}
+            >
+              <img
+                src={category.image}
+                alt={category.title}
+                loading="lazy"
+                className="absolute inset-0 h-full w-full object-cover transition-transform duration-300 ease-out group-hover:scale-[1.045]"
+              />
+              <div className="absolute inset-0 bg-gradient-to-t from-[#13190f]/58 via-[#1b2314]/20 to-transparent transition-colors duration-300 group-hover:from-[#13190f]/64" />
 
-        <div className="relative">
-          <p className="text-xs font-semibold uppercase tracking-[0.18em] text-cream-100/90">Vitrina curada</p>
-          <h2 className="mt-2 font-heading text-2xl sm:text-[1.9rem] font-semibold text-white">Explora por categoría</h2>
-
-          <div className="mt-5 grid grid-cols-1 min-[500px]:grid-cols-2 gap-3.5 sm:gap-4">
-            {categoryCards.map((category) => (
-              <Link
-                key={category.id}
-                to={`/productos?categoria=${category.id}`}
-                className="group relative isolate flex aspect-[1/1] overflow-hidden rounded-[1.25rem] border border-white/60 bg-white/94 text-[color:var(--text-primary)] shadow-[0_10px_24px_rgba(15,23,42,0.13)] transition-all duration-300 hover:-translate-y-1 hover:shadow-[0_18px_34px_rgba(15,23,42,0.2)]"
-              >
-                <img
-                  src={category.image}
-                  alt={category.title}
-                  loading="lazy"
-                  className="absolute inset-0 h-full w-full object-cover transition-transform duration-500 ease-out group-hover:scale-105"
-                />
-                <div className="absolute inset-0 bg-gradient-to-t from-[#141910]/55 via-[#1f2618]/16 to-white/8 transition-colors duration-300 group-hover:from-[#141910]/62" />
-
-                <div className="relative mt-auto w-full p-3 sm:p-4">
-                  <div className="flex items-center justify-between gap-3 rounded-xl border border-white/35 bg-[#f8f6f0]/80 px-3 py-2.5 backdrop-blur-[3px] transition-colors duration-300 group-hover:bg-[#fbf9f2]/92 group-hover:border-[color:var(--accent)]/45">
-                    <h3 className="text-sm sm:text-[0.95rem] leading-tight font-semibold text-[color:var(--text-primary)]">{category.title}</h3>
-                    <span className="inline-flex h-7 w-7 shrink-0 items-center justify-center rounded-full bg-white/75 text-[color:var(--primary)] shadow-[0_4px_10px_rgba(35,43,29,0.15)] transition-all duration-300 group-hover:bg-white group-hover:translate-x-0.5 group-hover:-translate-y-0.5">
-                      <ArrowUpRight size={14} />
-                    </span>
-                  </div>
+              <div className="relative mt-auto w-full p-3 sm:p-3.5 lg:p-4">
+                <div className="inline-flex max-w-full items-center gap-2.5 rounded-full border border-white/50 bg-white/78 px-3 py-1.5 backdrop-blur-[2px] transition-colors duration-300 group-hover:bg-white/86">
+                  <span className="truncate text-sm sm:text-[0.94rem] font-semibold text-[color:var(--text-primary)]">{category.title}</span>
+                  <span className="inline-flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-white/92 text-[color:var(--primary)] transition-transform duration-300 ease-out group-hover:translate-x-0.5">
+                    <ArrowUpRight size={13} />
+                  </span>
                 </div>
-              </Link>
-            ))}
-          </div>
+              </div>
+            </Link>
+          ))}
         </div>
       </aside>
     </ScrollAnimation>
