@@ -38,21 +38,20 @@ export default function HeroCategoriesPanel() {
             <Link
               key={category.id}
               to={`/productos?categoria=${category.id}`}
-              className="group relative isolate flex aspect-[1.2/1] sm:aspect-[1.03/1] overflow-hidden rounded-2xl text-white transition-all duration-300 ease-out hover:-translate-y-1 hover:shadow-[0_14px_30px_rgba(15,23,42,0.28)]"
+              className="group relative isolate flex flex-col aspect-[1.2/1] sm:aspect-[1.03/1] overflow-hidden rounded-2xl bg-white text-[color:var(--text-primary)] shadow-[0_10px_30px_rgba(10,18,8,0.28)] transition-all duration-300 ease-out hover:-translate-y-1 hover:shadow-[0_16px_36px_rgba(10,18,8,0.34)]"
               aria-label={`Ver categoría ${category.title}`}
             >
               <img
                 src={category.image}
                 alt={category.title}
                 loading="lazy"
-                className="absolute inset-0 h-full w-full object-cover transition-transform duration-300 ease-out group-hover:scale-[1.045]"
+                className="h-[70%] w-full object-cover transition-transform duration-300 ease-out group-hover:scale-[1.03]"
               />
-              <div className="absolute inset-0 bg-gradient-to-t from-[#13190f]/58 via-[#1b2314]/20 to-transparent transition-colors duration-300 group-hover:from-[#13190f]/64" />
 
-              <div className="relative mt-auto w-full p-3 sm:p-3.5 lg:p-4">
-                <div className="inline-flex max-w-full items-center gap-2.5 rounded-full border border-white/50 bg-white/78 px-3 py-1.5 backdrop-blur-[2px] transition-colors duration-300 group-hover:bg-white/86">
+              <div className="w-full flex-1 p-3 sm:p-3.5 lg:p-4 bg-white border-t border-black/5">
+                <div className="inline-flex max-w-full items-center gap-2.5 rounded-full border border-[color:var(--border-soft)] bg-white px-3 py-1.5 transition-colors duration-300 group-hover:bg-[color:var(--bg-secondary)]">
                   <span className="truncate text-sm sm:text-[0.94rem] font-semibold text-[color:var(--text-primary)]">{category.title}</span>
-                  <span className="inline-flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-white/92 text-[color:var(--primary)] transition-transform duration-300 ease-out group-hover:translate-x-0.5">
+                  <span className="inline-flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-[color:var(--bg-secondary)] text-[color:var(--primary)] transition-transform duration-300 ease-out group-hover:translate-x-0.5">
                     <ArrowUpRight size={13} />
                   </span>
                 </div>
