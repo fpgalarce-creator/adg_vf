@@ -3,7 +3,6 @@ import { Routes, Route, useLocation } from 'react-router-dom'
 import Navbar from './components/Navbar.jsx'
 import Hero from './components/Hero.jsx'
 import HeroInfoBar from './components/HeroInfoBar.jsx'
-import PromotionalCategories from './components/PromotionalCategories.jsx'
 import Products from './components/Products.jsx'
 import AboutUs from './components/AboutUs.jsx'
 import Contact from './components/Contact.jsx'
@@ -40,7 +39,6 @@ function LandingPage() {
     <PublicLayout>
       <Hero />
       <HeroInfoBar />
-      <PromotionalCategories />
       <AboutUs />
       <Contact />
     </PublicLayout>
