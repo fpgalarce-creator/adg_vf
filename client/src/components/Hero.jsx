@@ -16,7 +16,7 @@ export default function Hero() {
         <img
           src={heroImg}
           alt="Campo verde con productos frescos"
-          className="w-full h-full object-cover object-[52%_30%] brightness-110 contrast-110"
+          className="w-full h-full object-cover object-[52%_42%] lg:object-[52%_30%] brightness-110 contrast-110"
         />
         <div className="absolute inset-0 bg-[linear-gradient(90deg,rgba(20,20,20,0.55)_0%,rgba(20,20,20,0.35)_40%,rgba(20,20,20,0.15)_70%,rgba(20,20,20,0.05)_100%)]" />
       </div>
