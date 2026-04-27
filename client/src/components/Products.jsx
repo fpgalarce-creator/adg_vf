@@ -48,15 +48,19 @@ const resolveCategoryFromParam = (param, availableCategories) => {
 export default function Products() {
   const { products } = useProducts()
   const [searchParams, setSearchParams] = useSearchParams()
+  const isFeaturedView = searchParams.get('destacados') === 'true'
   const [searchQuery, setSearchQuery] = useState('')
   const [activeCategory, setActiveCategory] = useState('Todos')
   const [sortOrder, setSortOrder] = useState('featured')
 
   const highlightedProducts = useMemo(() => getHighlightedProducts(products, 6), [products])
+  const activeProducts = useMemo(
+    () => products.filter((p) => p.active && (!isFeaturedView || p.featured)),
+    [products, isFeaturedView],
+  )
 
   const categories = useMemo(() => {
-    const normalized = products
-      .filter((p) => p.active)
+    const normalized = activeProducts
       .map((p) => p.category)
       .filter(Boolean)
 
@@ -71,7 +75,7 @@ export default function Products() {
     })
 
     return ['Todos', ...ordered]
-  }, [products])
+  }, [activeProducts])
 
   useEffect(() => {
     const categoryFromUrl = searchParams.get('categoria')
@@ -83,8 +87,14 @@ export default function Products() {
     }
   }, [searchParams, categories, activeCategory])
 
+  useEffect(() => {
+    if (activeCategory !== 'Todos' && !categories.includes(activeCategory)) {
+      setActiveCategory('Todos')
+    }
+  }, [activeCategory, categories])
+
   const filteredProducts = useMemo(() => {
-    let list = products.filter((p) => p.active)
+    let list = [...activeProducts]
 
     if (activeCategory !== 'Todos') {
       list = list.filter((p) => p.category === activeCategory)
@@ -101,7 +111,7 @@ export default function Products() {
     if (sortOrder === 'featured') sorted.sort((a, b) => Number(b.featured) - Number(a.featured))
 
     return sorted
-  }, [products, activeCategory, searchQuery, sortOrder])
+  }, [activeProducts, activeCategory, searchQuery, sortOrder])
 
   const setCategoryAndUrl = (category) => {
     setActiveCategory(category)
@@ -121,16 +131,41 @@ export default function Products() {
     setSortOrder('featured')
   }
 
+  const showFullCatalog = () => {
+    setActiveCategory('Todos')
+    setSearchQuery('')
+    setSortOrder('featured')
+
+    const nextParams = new URLSearchParams(searchParams)
+    nextParams.delete('destacados')
+    nextParams.delete('categoria')
+    setSearchParams(nextParams, { replace: true })
+  }
+
   return (
     <section id="productos" className="pt-32 pb-24 sm:pb-28 bg-[color:var(--bg-primary)] min-h-screen">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div id="destacados" className="text-center mb-10">
-          <span className="inline-block text-[color:var(--primary)] text-sm font-semibold uppercase tracking-[0.15em] mb-3">Catálogo</span>
-          <h1 className="font-heading font-bold text-3xl sm:text-4xl lg:text-5xl text-[color:var(--text-primary)] mb-4">Todos nuestros productos</h1>
-          <p className="text-[color:var(--text-secondary)] text-lg max-w-2xl mx-auto">Explora el catálogo completo, filtra por categoría y agrega productos a tu cesta con un flujo rápido y ordenado.</p>
+          <span className="inline-block text-[color:var(--primary)] text-sm font-semibold uppercase tracking-[0.15em] mb-3">{isFeaturedView ? 'Destacados' : 'Catálogo'}</span>
+          <h1 className="font-heading font-bold text-3xl sm:text-4xl lg:text-5xl text-[color:var(--text-primary)] mb-4">
+            {isFeaturedView ? 'Productos destacados' : 'Todos nuestros productos'}
+          </h1>
+          <p className="text-[color:var(--text-secondary)] text-lg max-w-2xl mx-auto">
+            {isFeaturedView
+              ? 'Una selección especial de productos recomendados por Alma de Granja.'
+              : 'Explora el catálogo completo, filtra por categoría y agrega productos a tu cesta con un flujo rápido y ordenado.'}
+          </p>
+          {isFeaturedView && (
+            <button
+              onClick={showFullCatalog}
+              className="mt-5 inline-flex items-center rounded-full border border-[color:var(--border-soft)] bg-[color:var(--bg-card)] px-5 py-2.5 text-sm font-semibold text-[color:var(--text-primary)] transition hover:bg-[color:var(--bg-secondary)]"
+            >
+              Ver catálogo completo
+            </button>
+          )}
         </div>
 
-        {highlightedProducts.length > 0 && (
+        {!isFeaturedView && highlightedProducts.length > 0 && (
           <section className="mb-10 rounded-[2rem] border border-[color:var(--border-soft)] bg-[color:var(--bg-card)] p-5 sm:p-7 shadow-[0_12px_28px_rgba(26,29,24,0.08)]">
             <div className="mb-6 flex flex-col gap-2 sm:flex-row sm:items-end sm:justify-between">
               <div>
