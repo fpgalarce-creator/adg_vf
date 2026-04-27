@@ -1,4 +1,4 @@
-import aboutImg from '../assets/sobre-nosotros.jpeg'
+import aboutImg from '../assets/herovf.jpeg'
 import ScrollAnimation from './ScrollAnimation.jsx'
 
 export default function AboutUs() {
