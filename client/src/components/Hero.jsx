@@ -2,7 +2,6 @@ import { Link } from 'react-router-dom'
 import { MessageCircle, ArrowRight } from 'lucide-react'
 import heroImg from '../assets/contenido.jpeg'
 import ScrollAnimation from './ScrollAnimation.jsx'
-import HeroCategoriesPanel from './HeroCategoriesPanel.jsx'
 
 export default function Hero() {
   const openWhatsApp = () => {
@@ -18,12 +17,12 @@ export default function Hero() {
           alt="Campo verde con productos frescos"
           className="w-full h-full object-cover object-[52%_42%] lg:object-[52%_30%] brightness-110 contrast-110"
         />
-        <div className="absolute inset-0 bg-[linear-gradient(90deg,rgba(20,20,20,0.55)_0%,rgba(20,20,20,0.35)_40%,rgba(20,20,20,0.15)_70%,rgba(20,20,20,0.05)_100%)]" />
+        <div className="absolute inset-0 bg-[rgba(20,20,20,0.52)]" />
       </div>
 
       <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-24 pb-28 sm:pb-32 lg:pt-28 lg:pb-36">
-        <div className="grid items-start lg:items-center gap-8 lg:gap-12 xl:gap-16 lg:grid-cols-[minmax(0,1.02fr)_minmax(0,0.98fr)]">
-          <div className="max-w-2xl text-left">
+        <div className="flex justify-center">
+          <div className="w-full max-w-[700px] text-center mx-auto">
             <ScrollAnimation>
               <span className="inline-flex items-center gap-2 bg-white/16 backdrop-blur-md px-5 py-2 rounded-full border border-white/30 mb-7 text-cream-50 text-sm font-medium shadow-[0_8px_28px_rgba(0,0,0,0.2)]">
               Selección premium del campo chileno
@@ -41,26 +40,24 @@ export default function Hero() {
             </ScrollAnimation>
 
             <ScrollAnimation delay={220}>
-              <p className="text-[rgba(255,255,255,0.85)] text-lg sm:text-xl max-w-xl mb-9 leading-relaxed">
+              <p className="text-[rgba(255,255,255,0.88)] text-lg sm:text-xl max-w-[640px] mx-auto mb-9 leading-relaxed">
               Productos de campo seleccionados con estándar boutique: huevos, quesos, frutos secos y canastas para regalar o disfrutar en casa.
               </p>
             </ScrollAnimation>
 
             <ScrollAnimation delay={320}>
-              <div className="flex flex-col sm:flex-row items-stretch sm:items-center justify-start gap-4">
-              <Link to="/productos" className="group flex items-center justify-center gap-2 bg-[color:var(--bg-card)] text-[color:var(--text-primary)] px-8 py-4 rounded-full border border-[color:var(--border-soft)] font-semibold text-lg transition-all duration-300 hover:bg-[color:var(--bg-secondary)] hover:-translate-y-0.5 hover:shadow-[0_12px_30px_rgba(0,0,0,0.24)] shadow-[0_8px_24px_rgba(0,0,0,0.2)]">
+              <div className="flex flex-col sm:flex-row items-stretch sm:items-center justify-center gap-4">
+              <Link to="/productos" className="group w-full sm:w-auto flex items-center justify-center gap-2 bg-[color:var(--bg-card)] text-[color:var(--text-primary)] px-8 py-4 rounded-full border border-[color:var(--border-soft)] font-semibold text-lg transition-all duration-300 hover:bg-[color:var(--bg-secondary)] hover:-translate-y-0.5 hover:shadow-[0_12px_30px_rgba(0,0,0,0.24)] shadow-[0_8px_24px_rgba(0,0,0,0.2)]">
                 Ver productos
                 <ArrowRight size={18} className="transition-transform group-hover:translate-x-1" />
               </Link>
-              <button onClick={openWhatsApp} className="group flex items-center justify-center gap-3 bg-[color:var(--whatsapp)] hover:bg-[color:var(--whatsapp-hover)] text-[#FFFFFF] px-8 py-4 rounded-full font-semibold text-lg transition-all duration-300 hover:-translate-y-0.5 hover:shadow-[0_12px_30px_rgba(0,0,0,0.28)] shadow-[0_8px_24px_rgba(0,0,0,0.25)]">
+              <button onClick={openWhatsApp} className="group w-full sm:w-auto flex items-center justify-center gap-3 bg-[color:var(--whatsapp)] hover:bg-[color:var(--whatsapp-hover)] text-[#FFFFFF] px-8 py-4 rounded-full font-semibold text-lg transition-all duration-300 hover:-translate-y-0.5 hover:shadow-[0_12px_30px_rgba(0,0,0,0.28)] shadow-[0_8px_24px_rgba(0,0,0,0.25)]">
                 <MessageCircle size={22} className="transition-transform group-hover:scale-110" />
                 Pedir por WhatsApp
               </button>
               </div>
             </ScrollAnimation>
           </div>
-
-          <HeroCategoriesPanel />
         </div>
       </div>
 
