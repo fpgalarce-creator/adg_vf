@@ -15,7 +15,7 @@ const contactInfo = [
 export default function Contact() {
   const openWhatsApp = () => {
     const msg = encodeURIComponent('¡Hola Alma de Granja! Me gustaría hacer un pedido 🌿')
-    window.open(`https://wa.me/56958086762?text=${msg}`, '_blank')
+    window.open(`https://wa.me/56990861197?text=${msg}`, '_blank')
   }
 
   return (
