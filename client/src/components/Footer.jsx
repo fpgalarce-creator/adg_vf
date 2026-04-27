@@ -6,7 +6,6 @@ import {
   Camera,
   Share2,
   Leaf,
-  Mail,
   MapPin,
   MessageCircle,
   PackageCheck,
@@ -140,16 +139,12 @@ export default function Footer() {
               </a>
               <p className="flex items-start gap-3">
                 <Clock3 size={18} className="mt-0.5 shrink-0 text-[#C2A878]" />
-                <span>Lunes a Sábado, 09:00 - 18:00 hrs</span>
+                <span>Lunes a Viernes, 09:00 - 18:30 hrs</span>
               </p>
               <p className="flex items-start gap-3">
                 <MapPin size={18} className="mt-0.5 shrink-0 text-[#C2A878]" />
-                <span>Fundo El Milagro S/N, San Francisco de Mostazal, Región de O’Higgins</span>
+                <span>O&apos;Higgins de Pilay</span>
               </p>
-              <a href="mailto:hola@almadegranja.cl" className="flex items-start gap-3 transition-colors duration-300 hover:text-[#C2A878]">
-                <Mail size={18} className="mt-0.5 text-[#C2A878]" />
-                <span>hola@almadegranja.cl</span>
-              </a>
             </div>
 
             <a
