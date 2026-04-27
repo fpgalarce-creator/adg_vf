@@ -16,7 +16,7 @@ import logo from '../assets/logo_almadegranja.svg'
 
 const navLinks = [
   { label: 'Inicio', type: 'scroll', id: 'inicio' },
-  { label: 'Destacados', to: '/productos#destacados' },
+  { label: 'Destacados', to: '/productos?destacados=true' },
   { label: 'Productos', to: '/productos' },
   { label: 'Nosotros', type: 'scroll', id: 'nosotros' },
   { label: 'Contacto', type: 'scroll', id: 'contacto' },
@@ -26,7 +26,7 @@ const categoryLinks = [
   { label: 'Huevos', to: '/productos?categoria=huevos' },
   { label: 'Frutos secos', to: '/productos?categoria=frutos-secos' },
   { label: 'Quesos', to: '/productos?categoria=quesos' },
-  { label: 'Aceite de oliva', to: '/productos?categoria=aceite-de-oliva' },
+  { label: 'Aceites de Oliva', to: '/productos?categoria=aceites-de-oliva' },
   { label: 'Otros', to: '/productos?categoria=otros' },
 ]
 

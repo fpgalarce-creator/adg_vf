@@ -1,11 +1,12 @@
-import { useState, useMemo, useEffect } from 'react'
+import { useEffect, useMemo, useState } from 'react'
 import { useSearchParams } from 'react-router-dom'
-import { Search, SlidersHorizontal, ArrowUpDown, Sparkles } from 'lucide-react'
+import { Search, SlidersHorizontal, Star } from 'lucide-react'
 import { ProductCard } from './ProductCard.jsx'
 import { useProducts } from '../hooks/useProducts.js'
-import { getHighlightedProducts } from '../utils/featuredProducts.js'
+import { CATEGORY_OPTIONS, normalizeCategoryLabel } from '../utils/productStore.js'
 
-const categoryOrder = ['Todos', 'Huevos de campo', 'Huevos', 'Quesos', 'Frutos secos', 'Canastas', 'Aceite de oliva', 'Otros']
+const CATEGORY_FILTERS = ['Todos', ...CATEGORY_OPTIONS]
+const FORMAT_FILTERS = ['all', '500g', '1kg']
 
 const normalize = (value = '') => value
   .normalize('NFD')
@@ -16,172 +17,143 @@ const normalize = (value = '') => value
 const toCategoryParam = (value = '') => normalize(value).replace(/\s+/g, '-')
 
 const categoryParamAliases = {
+  todos: 'todos',
   huevos: 'huevos de campo',
   'huevos-de-campo': 'huevos de campo',
   'frutos-secos': 'frutos secos',
-  frutossecos: 'frutos secos',
   quesos: 'quesos',
-  canastas: 'canastas',
-  'canastas-y-packs': 'canastas',
+  'aceite-de-oliva': 'aceites de oliva',
+  'aceites-de-oliva': 'aceites de oliva',
+  otros: 'otros',
+  canastas: 'otros',
+  'canastas-y-packs': 'otros',
 }
 
-const resolveCategoryFromParam = (param, availableCategories) => {
-  if (!param) return null
+const getNormalizedWeight = (product) => normalize(product.weight || product.peso || product.bandeja || '')
 
-  const normalizedParam = normalize(param)
-  const normalizedTarget = categoryParamAliases[normalizedParam] ?? normalizedParam
+const productMatchesFormat = (product, formatFilter) => {
+  if (formatFilter === 'all') return true
 
-  const directMatch = availableCategories.find((category) => normalize(category) === normalizedTarget)
-  if (directMatch) return directMatch
+  const grams = Number(product.gramos || 0)
+  const weight = getNormalizedWeight(product)
 
-  const includesMatch = availableCategories.find((category) => normalize(category).includes(normalizedTarget))
-  if (includesMatch) return includesMatch
-
-  if (normalizedTarget === 'canastas') {
-    const fallback = availableCategories.find((category) => normalize(category) === 'otros')
-    if (fallback) return fallback
+  if (formatFilter === '500g') {
+    return grams === 500 || weight.includes('500 gramos') || weight.includes('500g')
   }
 
-  return null
+  if (formatFilter === '1kg') {
+    return grams === 1000 || weight.includes('1 kilogramo') || weight.includes('1 kg') || weight.includes('1000 gramos') || weight.includes('1 litro')
+  }
+
+  return true
 }
 
 export default function Products() {
   const { products } = useProducts()
   const [searchParams, setSearchParams] = useSearchParams()
-  const isFeaturedView = searchParams.get('destacados') === 'true'
+
+  const queryFeatured = searchParams.get('destacados') === 'true'
   const [searchQuery, setSearchQuery] = useState('')
   const [activeCategory, setActiveCategory] = useState('Todos')
-  const [sortOrder, setSortOrder] = useState('featured')
+  const [formatFilter, setFormatFilter] = useState('all')
+  const [sortOrder, setSortOrder] = useState('')
+  const [featuredOnly, setFeaturedOnly] = useState(queryFeatured)
 
-  const highlightedProducts = useMemo(() => getHighlightedProducts(products, 6), [products])
-  const activeProducts = useMemo(
-    () => products.filter((p) => p.active && (!isFeaturedView || p.featured)),
-    [products, isFeaturedView],
-  )
+  useEffect(() => {
+    setFeaturedOnly(queryFeatured)
+  }, [queryFeatured])
 
-  const categories = useMemo(() => {
-    const normalized = activeProducts
-      .map((p) => p.category)
-      .filter(Boolean)
-
-    const unique = [...new Set(normalized)]
-    const ordered = unique.sort((a, b) => {
-      const ia = categoryOrder.indexOf(a)
-      const ib = categoryOrder.indexOf(b)
-      if (ia === -1 && ib === -1) return a.localeCompare(b)
-      if (ia === -1) return 1
-      if (ib === -1) return -1
-      return ia - ib
-    })
-
-    return ['Todos', ...ordered]
-  }, [activeProducts])
+  const activeProducts = useMemo(() => products.filter((product) => product.active), [products])
 
   useEffect(() => {
     const categoryFromUrl = searchParams.get('categoria')
     if (!categoryFromUrl) return
 
-    const matchedCategory = resolveCategoryFromParam(categoryFromUrl, categories)
-    if (matchedCategory && matchedCategory !== activeCategory) {
-      setActiveCategory(matchedCategory)
+    const normalizedParam = categoryParamAliases[normalize(categoryFromUrl)] ?? normalize(categoryFromUrl)
+    const matched = CATEGORY_FILTERS.find((category) => normalize(category) === normalizedParam)
+    if (matched && matched !== activeCategory) {
+      setActiveCategory(matched)
     }
-  }, [searchParams, categories, activeCategory])
-
-  useEffect(() => {
-    if (activeCategory !== 'Todos' && !categories.includes(activeCategory)) {
-      setActiveCategory('Todos')
-    }
-  }, [activeCategory, categories])
+  }, [searchParams, activeCategory])
 
   const filteredProducts = useMemo(() => {
     let list = [...activeProducts]
 
+    if (featuredOnly) {
+      list = list.filter((product) => product.featured && product.active)
+    }
+
     if (activeCategory !== 'Todos') {
-      list = list.filter((p) => p.category === activeCategory)
+      list = list.filter((product) => normalizeCategoryLabel(product.category) === activeCategory)
     }
 
-    const normalizedQuery = searchQuery.trim().toLowerCase()
+    const normalizedQuery = normalize(searchQuery)
     if (normalizedQuery) {
-      list = list.filter((p) => (p.title || p.name || '').toLowerCase().includes(normalizedQuery))
+      list = list.filter((product) => normalize(product.title || product.name || '').includes(normalizedQuery))
     }
 
-    const sorted = [...list]
-    if (sortOrder === 'asc') sorted.sort((a, b) => a.price - b.price)
-    if (sortOrder === 'desc') sorted.sort((a, b) => b.price - a.price)
-    if (sortOrder === 'featured') sorted.sort((a, b) => Number(b.featured) - Number(a.featured))
+    list = list.filter((product) => productMatchesFormat(product, formatFilter))
 
-    return sorted
-  }, [activeProducts, activeCategory, searchQuery, sortOrder])
+    if (sortOrder === 'asc') {
+      list.sort((a, b) => a.price - b.price)
+    }
+    if (sortOrder === 'desc') {
+      list.sort((a, b) => b.price - a.price)
+    }
 
-  const setCategoryAndUrl = (category) => {
-    setActiveCategory(category)
+    return list
+  }, [activeProducts, featuredOnly, activeCategory, searchQuery, formatFilter, sortOrder])
 
+  const syncQueryParam = (updates = {}) => {
     const nextParams = new URLSearchParams(searchParams)
-    if (category === 'Todos') {
-      nextParams.delete('categoria')
-    } else {
-      nextParams.set('categoria', toCategoryParam(category))
+
+    if (Object.hasOwn(updates, 'category')) {
+      if (!updates.category || updates.category === 'Todos') {
+        nextParams.delete('categoria')
+      } else {
+        nextParams.set('categoria', toCategoryParam(updates.category))
+      }
     }
+
+    if (Object.hasOwn(updates, 'featuredOnly')) {
+      if (updates.featuredOnly) nextParams.set('destacados', 'true')
+      else nextParams.delete('destacados')
+    }
+
     setSearchParams(nextParams, { replace: true })
+  }
+
+  const handleCategoryChange = (category) => {
+    setActiveCategory(category)
+    syncQueryParam({ category })
+  }
+
+  const handleFeaturedChange = (event) => {
+    const nextValue = event.target.value === 'featured'
+    setFeaturedOnly(nextValue)
+    syncQueryParam({ featuredOnly: nextValue })
   }
 
   const clearFilters = () => {
-    setCategoryAndUrl('Todos')
     setSearchQuery('')
-    setSortOrder('featured')
-  }
-
-  const showFullCatalog = () => {
     setActiveCategory('Todos')
-    setSearchQuery('')
-    setSortOrder('featured')
-
-    const nextParams = new URLSearchParams(searchParams)
-    nextParams.delete('destacados')
-    nextParams.delete('categoria')
-    setSearchParams(nextParams, { replace: true })
+    setFormatFilter('all')
+    setSortOrder('')
+    setFeaturedOnly(false)
+    setSearchParams({}, { replace: true })
   }
 
   return (
     <section id="productos" className="pt-32 pb-24 sm:pb-28 bg-[color:var(--bg-primary)] min-h-screen">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div id="destacados" className="text-center mb-10">
-          <span className="inline-block text-[color:var(--primary)] text-sm font-semibold uppercase tracking-[0.15em] mb-3">{isFeaturedView ? 'Destacados' : 'Catálogo'}</span>
-          <h1 className="font-heading font-bold text-3xl sm:text-4xl lg:text-5xl text-[color:var(--text-primary)] mb-4">
-            {isFeaturedView ? 'Productos destacados' : 'Todos nuestros productos'}
+        <div className="text-center mb-8">
+          <h1 className="font-heading font-bold text-3xl sm:text-4xl lg:text-5xl text-[color:var(--text-primary)] mb-3">
+            {featuredOnly ? 'Productos destacados' : 'Productos'}
           </h1>
-          <p className="text-[color:var(--text-secondary)] text-lg max-w-2xl mx-auto">
-            {isFeaturedView
-              ? 'Una selección especial de productos recomendados por Alma de Granja.'
-              : 'Explora el catálogo completo, filtra por categoría y agrega productos a tu cesta con un flujo rápido y ordenado.'}
+          <p className="text-[color:var(--text-secondary)] text-base sm:text-lg max-w-2xl mx-auto">
+            Descubre productos frescos y seleccionados del campo chileno.
           </p>
-          {isFeaturedView && (
-            <button
-              onClick={showFullCatalog}
-              className="mt-5 inline-flex items-center rounded-full border border-[color:var(--border-soft)] bg-[color:var(--bg-card)] px-5 py-2.5 text-sm font-semibold text-[color:var(--text-primary)] transition hover:bg-[color:var(--bg-secondary)]"
-            >
-              Ver catálogo completo
-            </button>
-          )}
         </div>
-
-        {!isFeaturedView && highlightedProducts.length > 0 && (
-          <section className="mb-10 rounded-[2rem] border border-[color:var(--border-soft)] bg-[color:var(--bg-card)] p-5 sm:p-7 shadow-[0_12px_28px_rgba(26,29,24,0.08)]">
-            <div className="mb-6 flex flex-col gap-2 sm:flex-row sm:items-end sm:justify-between">
-              <div>
-                <p className="inline-flex items-center gap-2 text-[color:var(--accent)] text-xs sm:text-sm font-semibold uppercase tracking-[0.15em]"><Sparkles size={14} /> Selección destacada</p>
-                <h2 className="font-heading font-bold text-2xl sm:text-3xl text-[color:var(--text-primary)] mt-2">Lo mejor de la semana</h2>
-              </div>
-              <p className="text-sm text-[color:var(--text-secondary)]">Productos recomendados para compra rápida.</p>
-            </div>
-
-            <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-5 lg:gap-6">
-              {highlightedProducts.map((product) => (
-                <ProductCard key={`featured-${product.id}`} product={product} featured />
-              ))}
-            </div>
-          </section>
-        )}
 
         <div className="rounded-2xl border border-[color:var(--border-soft)] bg-[color:var(--bg-card)] p-4 sm:p-6 mb-8 space-y-4">
           <div className="relative">
@@ -190,33 +162,72 @@ export default function Products() {
               type="text"
               value={searchQuery}
               onChange={(event) => setSearchQuery(event.target.value)}
-              placeholder="Buscar por nombre de producto"
+              placeholder="Buscar por nombre de producto..."
               className="w-full rounded-xl border border-[color:var(--border-soft)] bg-[color:var(--bg-primary)] py-3 pl-11 pr-4 text-sm text-[color:var(--text-primary)] outline-none focus:border-[color:var(--primary-light)] focus:ring-2 focus:ring-[color:var(--border-light)]"
             />
           </div>
 
-          <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-4">
-            <div className="flex items-center gap-2 flex-wrap">
+          <div className="flex flex-col gap-4">
+            <div className="flex items-center gap-2 flex-wrap overflow-x-auto pb-1">
               <SlidersHorizontal size={16} className="text-[color:var(--primary)] hidden sm:block" />
-              {categories.map((cat) => (
-                <button key={cat} onClick={() => setCategoryAndUrl(cat)} className={`px-4 py-2 rounded-full text-sm font-medium transition ${activeCategory === cat ? 'bg-[color:var(--primary)] text-white' : 'bg-[color:var(--bg-primary)] text-[color:var(--text-secondary)] border border-[color:var(--border-soft)] hover:bg-[color:var(--bg-secondary)]'}`}>
-                  {cat}
+              {CATEGORY_FILTERS.map((category) => (
+                <button
+                  key={category}
+                  onClick={() => handleCategoryChange(category)}
+                  className={`px-4 py-2 rounded-full text-sm font-medium transition whitespace-nowrap ${activeCategory === category ? 'bg-[color:var(--primary)] text-white' : 'bg-[color:var(--bg-primary)] text-[color:var(--text-secondary)] border border-[color:var(--border-soft)] hover:bg-[color:var(--bg-secondary)]'}`}
+                >
+                  {category}
                 </button>
               ))}
             </div>
 
-            <div className="flex items-center gap-2">
-              <ArrowUpDown size={16} className="text-[color:var(--primary)]" />
-              <select value={sortOrder} onChange={(e) => setSortOrder(e.target.value)} className="bg-[color:var(--bg-primary)] border border-[color:var(--border-soft)] text-[color:var(--text-secondary)] text-sm rounded-xl px-4 py-2.5 focus:outline-none focus:ring-2 focus:ring-[color:var(--border-light)]">
-                <option value="featured">Destacados primero</option>
-                <option value="asc">Menor a mayor precio</option>
-                <option value="desc">Mayor a menor precio</option>
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
+              <select
+                value={formatFilter}
+                onChange={(event) => setFormatFilter(event.target.value)}
+                className="bg-[color:var(--bg-primary)] border border-[color:var(--border-soft)] text-[color:var(--text-secondary)] text-sm rounded-xl px-4 py-3 focus:outline-none focus:ring-2 focus:ring-[color:var(--border-light)]"
+              >
+                <option value={FORMAT_FILTERS[0]}>Todos los formatos</option>
+                <option value={FORMAT_FILTERS[1]}>500 gramos</option>
+                <option value={FORMAT_FILTERS[2]}>1 kilogramo</option>
               </select>
+
+              <select
+                value={sortOrder}
+                onChange={(event) => setSortOrder(event.target.value)}
+                className="bg-[color:var(--bg-primary)] border border-[color:var(--border-soft)] text-[color:var(--text-secondary)] text-sm rounded-xl px-4 py-3 focus:outline-none focus:ring-2 focus:ring-[color:var(--border-light)]"
+              >
+                <option value="">Ordenar por</option>
+                <option value="asc">Menor a mayor</option>
+                <option value="desc">Mayor a menor</option>
+              </select>
+
+              <label className="relative">
+                <Star size={16} className="absolute left-4 top-1/2 -translate-y-1/2 text-[color:var(--primary)]" />
+                <select
+                  value={featuredOnly ? 'featured' : 'all'}
+                  onChange={handleFeaturedChange}
+                  className="w-full bg-[color:var(--bg-primary)] border border-[color:var(--border-soft)] text-[color:var(--text-secondary)] text-sm rounded-xl pl-10 pr-4 py-3 focus:outline-none focus:ring-2 focus:ring-[color:var(--border-light)]"
+                >
+                  <option value="all">Todos</option>
+                  <option value="featured">Destacados</option>
+                </select>
+              </label>
             </div>
           </div>
         </div>
 
-        <p className="text-sm text-[color:var(--text-secondary)] mb-6">{filteredProducts.length} productos encontrados</p>
+        <div className="flex items-center justify-between gap-3 mb-6">
+          <p className="text-sm text-[color:var(--text-secondary)]">{filteredProducts.length} productos encontrados</p>
+          {(featuredOnly || activeCategory !== 'Todos' || searchQuery || formatFilter !== 'all' || sortOrder) && (
+            <button
+              onClick={clearFilters}
+              className="text-sm font-semibold text-[color:var(--primary)] hover:text-[color:var(--primary-hover)] transition"
+            >
+              Limpiar filtros
+            </button>
+          )}
+        </div>
 
         {filteredProducts.length > 0 ? (
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 lg:gap-8">

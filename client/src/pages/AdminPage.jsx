@@ -1,7 +1,7 @@
 import { useMemo, useState } from 'react'
 import { Plus, Pencil, Save, X, Package, LogOut, Eye, EyeOff, Star, ShieldCheck, Lock, Trash2 } from 'lucide-react'
 import { useProducts } from '../hooks/useProducts.js'
-import { CATEGORY_OPTIONS, normalizeProduct } from '../utils/productStore.js'
+import { CATEGORY_OPTIONS, normalizeCategoryLabel, normalizeProduct } from '../utils/productStore.js'
 import { productImageOptions, productImageMap, defaultProductImageKey } from '../data/productImages.js'
 
 const ADMIN_SESSION_KEY = 'adg_admin_auth_v1'
@@ -95,7 +95,7 @@ export default function AdminPage() {
       gramos: product.gramos ? String(product.gramos) : '',
       bandeja: product.bandeja,
       precio: String(product.price),
-      categoria: product.category,
+      categoria: normalizeCategoryLabel(product.category),
       destacado: product.featured,
       activo: product.active,
       imageKey: product.imageKey,
