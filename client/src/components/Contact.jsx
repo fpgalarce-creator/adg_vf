@@ -4,7 +4,7 @@ import contactImg from '../assets/contenido2.jpeg'
 const contactInfo = [
   {
     icon: MapPin,
-    text: "O'Higgins de Pilai",
+    text: "O'Higgins de Pilay",
   },
   {
     icon: Clock3,
