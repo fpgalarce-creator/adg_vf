@@ -98,6 +98,10 @@ export default function HeroInfoBar() {
                     )
                   })}
                 </ol>
+                <div className="mt-4 sm:mt-6 flex items-center justify-center lg:justify-start gap-2 text-sm font-medium text-white/80 text-center lg:text-left opacity-0 translate-y-1 animate-[contactFadeIn_700ms_ease-out_140ms_forwards] motion-reduce:animate-none motion-reduce:opacity-100 motion-reduce:translate-y-0">
+                  <Truck size={16} className="shrink-0 text-white/75" aria-hidden="true" />
+                  <p>Por compras sobre $25.000 el despacho es gratis</p>
+                </div>
               </div>
             </div>
           </div>
