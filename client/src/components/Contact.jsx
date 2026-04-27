@@ -1,18 +1,14 @@
-import { MessageCircle, MapPin, Clock3, Mail, ShieldCheck, Leaf } from 'lucide-react'
-import contactImg from '../assets/gallerymain.jpg'
+import { MessageCircle, MapPin, Clock3, ShieldCheck, Leaf } from 'lucide-react'
+import contactImg from '../assets/contenido2.jpeg'
 
 const contactInfo = [
   {
     icon: MapPin,
-    text: 'Fundo El Milagro S/N, San Francisco de Mostazal, Región de O’Higgins',
+    text: "O'Higgins de Pilai",
   },
   {
     icon: Clock3,
     text: 'Lunes a Sábado, 09:00 - 18:00 hrs',
-  },
-  {
-    icon: Mail,
-    text: 'hola@almadegranja.cl',
   },
 ]
 
