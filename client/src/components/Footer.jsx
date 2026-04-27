@@ -135,7 +135,7 @@ export default function Footer() {
             <div className="space-y-4 text-[15px] text-[rgba(245,243,239,0.86)]">
               <a href="https://wa.me/56958086762" target="_blank" rel="noopener noreferrer" className="flex items-start gap-3 transition-colors duration-300 hover:text-[#C2A878]">
                 <MessageCircle size={18} className="mt-0.5 text-[#C2A878]" />
-                <span>+56 9 5808 6762</span>
+                <span>+56 9 9086 1197</span>
               </a>
               <p className="flex items-start gap-3">
                 <Clock3 size={18} className="mt-0.5 shrink-0 text-[#C2A878]" />
