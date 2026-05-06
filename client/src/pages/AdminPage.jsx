@@ -36,8 +36,8 @@ export default function AdminPage() {
   const [form, setForm] = useState(emptyProduct)
   const [isSaving, setIsSaving] = useState(false)
 
-  const visibleCount = useMemo(() => products.filter((p) => p.active).length, [products])
-  const featuredCount = useMemo(() => products.filter((p) => p.active && p.featured).length, [products])
+  const visibleCount = useMemo(() => (products || []).filter((p) => p?.active).length, [products])
+  const featuredCount = useMemo(() => (products || []).filter((p) => p?.active && p?.featured).length, [products])
 
   const handleLogin = async (event) => {
     event.preventDefault()
@@ -139,7 +139,7 @@ export default function AdminPage() {
   }
 
   const toggleFlag = async (id, field) => {
-    const product = products.find(p => p.id === id)
+    const product = (products || []).find(p => p.id === id)
     if (!product) return
 
     try {
@@ -357,7 +357,7 @@ export default function AdminPage() {
                 </tr>
               </thead>
               <tbody>
-                {products.map((product) => (
+                {(products || []).map((product) => (
                   <tr key={product.id} className="border-b border-gray-50 hover:bg-gray-50/50">
                     <td className="px-6 py-4">
                       <div className="flex items-center gap-3">
@@ -393,7 +393,7 @@ export default function AdminPage() {
               </tbody>
             </table>
           </div>
-          {products.length === 0 && <div className="text-center py-12 text-gray-400">No hay productos. Crea el primero.</div>}
+          {(!products || products.length === 0) && <div className="text-center py-12 text-gray-400">No hay productos. Crea el primero.</div>}
         </div>
           </>
         )}

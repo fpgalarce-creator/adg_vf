@@ -12,22 +12,24 @@ export function useProducts() {
     setError(null)
     try {
       const data = await productsService.getProducts()
-      // Map supabase columns to what normalizeProduct expects
-      const mapped = data.map(p => ({
-        id: p.id,
-        name: p.name,
-        description: p.description,
-        price: p.price,
-        weight: p.weight,
-        category: p.category,
-        imageKey: p.image, // We store the image key in the image column
-        featured: p.featured,
-        active: p.active
+      const safeData = data || []
+      
+      const mapped = safeData.map(p => ({
+        id: p?.id,
+        name: p?.name,
+        description: p?.description,
+        price: p?.price,
+        weight: p?.weight,
+        category: p?.category,
+        imageKey: p?.image, 
+        featured: p?.featured,
+        active: p?.active
       }))
       setProducts(mapped.map(normalizeProduct))
     } catch (err) {
       console.error('Error fetching products:', err)
-      setError('No se pudieron cargar los productos.')
+      setProducts([])
+      setError('No hay productos disponibles')
     } finally {
       setIsLoading(false)
     }
@@ -38,10 +40,10 @@ export function useProducts() {
   }, [fetchProducts])
 
   return { 
-    products, 
+    products: products || [], 
     isLoading, 
     error,
-    setProducts, // AdminPage might still use this temporarily or we can rely on refreshProducts
+    setProducts, 
     refreshProducts: fetchProducts
   }
 }

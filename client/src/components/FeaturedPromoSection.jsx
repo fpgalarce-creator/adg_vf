@@ -8,7 +8,7 @@ import cardImageFallback from '../assets/contenido.jpeg'
 export default function FeaturedPromoSection() {
   const { products, isLoading } = useProducts()
 
-  const featuredProducts = products.filter((product) => product.active && product.featured)
+  const featuredProducts = (products || []).filter((product) => product?.active && product?.featured)
 
   if (isLoading || !featuredProducts.length) return null
 

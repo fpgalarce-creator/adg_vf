@@ -63,7 +63,7 @@ export default function Products() {
     setFeaturedOnly(queryFeatured)
   }, [queryFeatured])
 
-  const activeProducts = useMemo(() => products.filter((product) => product.active), [products])
+  const activeProducts = useMemo(() => (products || []).filter((product) => product?.active), [products])
 
   useEffect(() => {
     const categoryFromUrl = searchParams.get('categoria')
