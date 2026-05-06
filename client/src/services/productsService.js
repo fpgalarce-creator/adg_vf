@@ -1,5 +1,18 @@
 import { supabase } from '../lib/supabase.js'
 
+const mapProductToDB = (data) => {
+  return {
+    name: data.titulo || data.title || data.name || "",
+    description: data.descripcion || data.description || "",
+    price: Number(data.precio !== undefined ? data.precio : data.price) || 0,
+    weight: String(data.gramos ? `${data.gramos}g` : data.peso || data.weight || ""),
+    category: data.categoria || data.category || "",
+    image: data.imageKey || data.image || "huevos-campo",
+    featured: Boolean(data.destacado ?? data.featured ?? false),
+    active: Boolean(data.activo ?? data.active ?? true),
+  };
+};
+
 export const productsService = {
   async getProducts() {
     const { data, error } = await supabase
@@ -22,26 +35,36 @@ export const productsService = {
     return data || []
   },
 
-  async createProduct(product) {
+  async createProduct(productForm) {
+    const dbProduct = mapProductToDB(productForm);
+
     const { data, error } = await supabase
       .from('products')
-      .insert([product])
+      .insert([dbProduct])
       .select()
       .single()
     
-    if (error) throw error
+    if (error) {
+      console.error("INSERT ERROR:", error);
+      throw error;
+    }
     return data
   },
 
-  async updateProduct(id, updates) {
+  async updateProduct(id, productForm) {
+    const dbProduct = mapProductToDB(productForm);
+
     const { data, error } = await supabase
       .from('products')
-      .update(updates)
+      .update(dbProduct)
       .eq('id', id)
       .select()
       .single()
     
-    if (error) throw error
+    if (error) {
+      console.error("UPDATE ERROR:", error);
+      throw error;
+    }
     return data
   },
 

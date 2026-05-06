@@ -107,26 +107,11 @@ export default function AdminPage() {
     if (!form.title.trim() || !form.precio) return
     setIsSaving(true)
 
-    const weightString = form.peso.trim() 
-      ? form.peso.trim() 
-      : (Number(form.gramos) > 0 ? `${form.gramos} gramos` : form.bandeja.trim());
-
-    const payload = {
-      name: form.title.trim(),
-      description: form.description.trim(),
-      price: Number(form.precio),
-      weight: weightString,
-      category: form.categoria,
-      image: form.imageKey, // Store imageKey in the 'image' column in DB
-      featured: form.destacado,
-      active: form.activo,
-    }
-
     try {
       if (editingId) {
-        await productsService.updateProduct(editingId, payload)
+        await productsService.updateProduct(editingId, form)
       } else {
-        await productsService.createProduct(payload)
+        await productsService.createProduct(form)
       }
       await refreshProducts()
       resetForm()
