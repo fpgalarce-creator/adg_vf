@@ -3,6 +3,7 @@ import { Plus, Pencil, Save, X, Package, LogOut, Eye, EyeOff, Star, ShieldCheck,
 import { useProducts } from '../hooks/useProducts.js'
 import { CATEGORY_OPTIONS, normalizeCategoryLabel, normalizeProduct } from '../utils/productStore.js'
 import { productImageOptions, productImageMap, defaultProductImageKey } from '../data/productImages.js'
+import { productsService } from '../services/productsService.js'
 
 const ADMIN_SESSION_KEY = 'adg_admin_auth_v1'
 
