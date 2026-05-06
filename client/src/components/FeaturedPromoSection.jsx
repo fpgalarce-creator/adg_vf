@@ -6,11 +6,11 @@ import { formatPrice } from './ProductCard.jsx'
 import cardImageFallback from '../assets/contenido.jpeg'
 
 export default function FeaturedPromoSection() {
-  const { products } = useProducts()
+  const { products, isLoading } = useProducts()
 
   const featuredProducts = products.filter((product) => product.active && product.featured)
 
-  if (!featuredProducts.length) return null
+  if (isLoading || !featuredProducts.length) return null
 
   return (
     <section

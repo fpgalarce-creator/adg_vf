@@ -25,7 +25,7 @@ const getInitialSession = () => {
 }
 
 export default function AdminPage() {
-  const { products, setProducts } = useProducts()
+  const { products, isLoading, setProducts, refreshProducts } = useProducts()
   const [isAuthenticated, setIsAuthenticated] = useState(getInitialSession)
   const [loginForm, setLoginForm] = useState({ username: '', password: '' })
   const [loginError, setLoginError] = useState('')
@@ -34,6 +34,7 @@ export default function AdminPage() {
   const [editingId, setEditingId] = useState(null)
   const [isCreating, setIsCreating] = useState(false)
   const [form, setForm] = useState(emptyProduct)
+  const [isSaving, setIsSaving] = useState(false)
 
   const visibleCount = useMemo(() => products.filter((p) => p.active).length, [products])
   const featuredCount = useMemo(() => products.filter((p) => p.active && p.featured).length, [products])
@@ -102,62 +103,71 @@ export default function AdminPage() {
     })
   }
 
-  const saveForm = () => {
+  const saveForm = async () => {
     if (!form.title.trim() || !form.precio) return
+    setIsSaving(true)
 
-    const payload = normalizeProduct({
-      id: editingId ?? Date.now(),
-      title: form.title.trim(),
+    const weightString = form.peso.trim() 
+      ? form.peso.trim() 
+      : (Number(form.gramos) > 0 ? `${form.gramos} gramos` : form.bandeja.trim());
+
+    const payload = {
+      name: form.title.trim(),
       description: form.description.trim(),
-      peso: form.peso.trim(),
-      gramos: Number(form.gramos || 0),
-      bandeja: form.bandeja.trim(),
-      precio: Number(form.precio),
-      categoria: form.categoria,
-      destacado: form.destacado,
-      activo: form.activo,
-      imageKey: form.imageKey,
-    })
-
-    if (editingId) {
-      setProducts(products.map((product) => (product.id === editingId ? payload : product)))
-    } else {
-      setProducts([...products, payload])
+      price: Number(form.precio),
+      weight: weightString,
+      category: form.categoria,
+      image: form.imageKey, // Store imageKey in the 'image' column in DB
+      featured: form.destacado,
+      active: form.activo,
     }
 
-    resetForm()
+    try {
+      if (editingId) {
+        await productsService.updateProduct(editingId, payload)
+      } else {
+        await productsService.createProduct(payload)
+      }
+      await refreshProducts()
+      resetForm()
+    } catch (error) {
+      console.error('Error saving product:', error)
+      alert('Error al guardar el producto')
+    } finally {
+      setIsSaving(false)
+    }
   }
 
-  const toggleFlag = (id, field) => {
-    setProducts(
-      products.map((product) => {
-        if (product.id !== id) return product
+  const toggleFlag = async (id, field) => {
+    const product = products.find(p => p.id === id)
+    if (!product) return
 
-        const next = normalizeProduct({
-          ...product,
-          [field]: !product[field],
-          destacado: field === 'featured' ? !product.featured : product.featured,
-          activo: field === 'active' ? !product.active : product.active,
-        })
-
-        if (field === 'active' && !next.active) {
-          next.destacado = false
-          next.featured = false
-        }
-
-        return next
-      }),
-    )
+    try {
+      if (field === 'active') {
+        await productsService.toggleActive(id, !product.active)
+      } else if (field === 'featured') {
+        await productsService.toggleFeatured(id, !product.featured)
+      }
+      await refreshProducts()
+    } catch (error) {
+      console.error('Error toggling flag:', error)
+      alert('Error al actualizar el estado')
+    }
   }
 
-  const removeProduct = (product) => {
+  const removeProduct = async (product) => {
     const confirmed = window.confirm(`¿Eliminar "${product.title}"? Esta acción no se puede deshacer.`)
     if (!confirmed) return
 
-    setProducts(products.filter((item) => item.id !== product.id))
-
-    if (editingId === product.id) {
-      resetForm()
+    try {
+      await productsService.deleteProduct(product.id)
+      await refreshProducts()
+      if (editingId === product.id) {
+        resetForm()
+      }
+    } catch (error) {
+      console.error('Error deleting product:', error)
+      alert('Error al eliminar el producto')
     }
   }
 
@@ -229,7 +239,16 @@ export default function AdminPage() {
       </header>
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-6">
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+        {isLoading ? (
+          <div className="text-center py-12 text-gray-500">
+            <div className="animate-spin inline-block w-8 h-8 border-[3px] border-current border-t-transparent text-olive-600 rounded-full" role="status" aria-label="loading">
+              <span className="sr-only">Cargando...</span>
+            </div>
+            <p className="mt-4">Cargando productos...</p>
+          </div>
+        ) : (
+          <>
+            <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
           <CardStat label="Total productos" value={products.length} />
           <CardStat label="Visibles" value={visibleCount} />
           <CardStat label="Destacados" value={featuredCount} />
@@ -312,8 +331,15 @@ export default function AdminPage() {
             </div>
 
             <div className="mt-6 flex items-center gap-3">
-              <button onClick={saveForm} className="flex items-center gap-2 bg-olive-600 hover:bg-olive-700 text-white px-6 py-2.5 rounded-xl text-sm font-semibold transition-colors"><Save size={16} />Guardar</button>
-              <button onClick={resetForm} className="text-sm text-gray-500 hover:text-gray-700">Cancelar</button>
+              <button 
+                onClick={saveForm} 
+                disabled={isSaving}
+                className="flex items-center gap-2 bg-olive-600 hover:bg-olive-700 disabled:opacity-60 text-white px-6 py-2.5 rounded-xl text-sm font-semibold transition-colors"
+              >
+                <Save size={16} />
+                {isSaving ? 'Guardando...' : 'Guardar'}
+              </button>
+              <button onClick={resetForm} disabled={isSaving} className="text-sm text-gray-500 hover:text-gray-700 disabled:opacity-60">Cancelar</button>
             </div>
           </div>
         )}
@@ -369,6 +395,8 @@ export default function AdminPage() {
           </div>
           {products.length === 0 && <div className="text-center py-12 text-gray-400">No hay productos. Crea el primero.</div>}
         </div>
+          </>
+        )}
       </div>
     </div>
   )

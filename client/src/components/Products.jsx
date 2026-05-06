@@ -49,7 +49,7 @@ const productMatchesFormat = (product, formatFilter) => {
 }
 
 export default function Products() {
-  const { products } = useProducts()
+  const { products, isLoading, error } = useProducts()
   const [searchParams, setSearchParams] = useSearchParams()
 
   const queryFeatured = searchParams.get('destacados') === 'true'
@@ -155,7 +155,20 @@ export default function Products() {
           </p>
         </div>
 
-        <div className="rounded-2xl border border-[color:var(--border-soft)] bg-[color:var(--bg-card)] p-4 sm:p-6 mb-8 space-y-4">
+        {error ? (
+          <div className="text-center py-16 rounded-2xl border border-red-200 bg-red-50">
+            <p className="text-red-600 font-medium">{error}</p>
+          </div>
+        ) : isLoading ? (
+          <div className="text-center py-20">
+            <div className="animate-spin inline-block w-10 h-10 border-[3px] border-current border-t-transparent text-[color:var(--primary)] rounded-full" role="status" aria-label="loading">
+              <span className="sr-only">Cargando...</span>
+            </div>
+            <p className="mt-4 text-[color:var(--text-secondary)]">Cargando productos...</p>
+          </div>
+        ) : (
+          <>
+            <div className="rounded-2xl border border-[color:var(--border-soft)] bg-[color:var(--bg-card)] p-4 sm:p-6 mb-8 space-y-4">
           <div className="relative">
             <Search size={18} className="absolute left-4 top-1/2 -translate-y-1/2 text-[color:var(--text-secondary)]/70" />
             <input
@@ -240,6 +253,8 @@ export default function Products() {
               Limpiar filtros
             </button>
           </div>
+        )}
+          </>
         )}
       </div>
     </section>
