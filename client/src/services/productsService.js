@@ -1,4 +1,4 @@
-import { supabase } from '../lib/supabaseClient.js'
+import { supabase, isSupabaseConfigured } from '../lib/supabase.js'
 
 const mapProductToDB = (data) => {
   return {
@@ -15,27 +15,42 @@ const mapProductToDB = (data) => {
 
 export const productsService = {
   async getProducts() {
+    if (!isSupabaseConfigured || !supabase) {
+      console.error("Supabase is not configured");
+      return [];
+    }
     const { data, error } = await supabase
       .from('products')
       .select('*')
       .order('created_at', { ascending: false })
     
-    if (error) throw error
-    return data || []
+    if (error) {
+      console.error("Error in getProducts:", error);
+      return [];
+    }
+    return data || [];
   },
 
   async getActiveProducts() {
+    if (!isSupabaseConfigured || !supabase) {
+      console.error("Supabase is not configured");
+      return [];
+    }
     const { data, error } = await supabase
       .from('products')
       .select('*')
       .eq('active', true)
       .order('created_at', { ascending: false })
     
-    if (error) throw error
-    return data || []
+    if (error) {
+      console.error("Error in getActiveProducts:", error);
+      return [];
+    }
+    return data || [];
   },
 
   async createProduct(productForm) {
+    if (!isSupabaseConfigured || !supabase) throw new Error("Supabase is not configured");
     const dbProduct = mapProductToDB(productForm);
 
     const { data, error } = await supabase
@@ -52,6 +67,7 @@ export const productsService = {
   },
 
   async updateProduct(id, productForm) {
+    if (!isSupabaseConfigured || !supabase) throw new Error("Supabase is not configured");
     const dbProduct = mapProductToDB(productForm);
 
     const { data, error } = await supabase
@@ -69,6 +85,7 @@ export const productsService = {
   },
 
   async deleteProduct(id) {
+    if (!isSupabaseConfigured || !supabase) throw new Error("Supabase is not configured");
     const { error } = await supabase
       .from('products')
       .delete()
@@ -79,6 +96,7 @@ export const productsService = {
   },
 
   async toggleFeatured(id, featured) {
+    if (!isSupabaseConfigured || !supabase) throw new Error("Supabase is not configured");
     const { data, error } = await supabase
       .from('products')
       .update({ featured })
@@ -91,6 +109,7 @@ export const productsService = {
   },
 
   async toggleActive(id, active) {
+    if (!isSupabaseConfigured || !supabase) throw new Error("Supabase is not configured");
     const updates = { active }
     if (!active) {
       updates.featured = false // If inactive, it shouldn't be featured
